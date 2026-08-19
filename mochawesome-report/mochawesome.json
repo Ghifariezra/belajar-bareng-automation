@@ -1,0 +1,252 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-08-18T23:54:58.284Z",
+    "end": "2026-08-18T23:55:13.957Z",
+    "duration": 15673,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "339b0111-d725-44f9-bbfd-be2a620ed217",
+      "title": "",
+      "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+      "file": "\\tests\\belajar-bareng\\index.test.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "3dd91d1a-0554-48f1-85f4-0174648c664d",
+          "title": "Belajar Bareng Automation",
+          "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+          "file": "\\tests\\belajar-bareng\\index.test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"Belajar Bareng Automation\"",
+              "fullTitle": "Belajar Bareng Automation \"before all\" hook in \"Belajar Bareng Automation\"",
+              "timedOut": false,
+              "duration": 763,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// 2. fill testContext\ntestContext.title = \"User Management\";\ntestContext.baseUrl = \"https://belajar-bareng.onrender.com/\";\ntestContext.driver = await new Builder().forBrowser(\"chrome\").build();\ntestContext.belajarBareng = new BelajarBareng(testContext.driver, \"belajar-bareng\");",
+              "err": {},
+              "uuid": "8c097fdb-386c-4e21-b248-0aba76d0fa52",
+              "parentUUID": "3dd91d1a-0554-48f1-85f4-0174648c664d",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Belajar Bareng Automation\"",
+              "fullTitle": "Belajar Bareng Automation \"after all\" hook in \"Belajar Bareng Automation\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if (testContext.belajarBareng && testContext.belajarBareng.driver) {\n    setTimeout(async () => {\n        await testContext.belajarBareng.driver.quit();\n    }, 5000);\n}",
+              "err": {},
+              "uuid": "79285370-5fa9-4647-a344-3b67412a6b85",
+              "parentUUID": "3dd91d1a-0554-48f1-85f4-0174648c664d",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "1a9158de-0c92-4aaa-9764-c28a6822f271",
+              "title": "User should be able to login, add a new user, and complete checkout",
+              "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+              "file": "\\tests\\belajar-bareng\\index.test.js",
+              "beforeHooks": [
+                {
+                  "title": "\"before all\" hook in \"User should be able to login, add a new user, and complete checkout\"",
+                  "fullTitle": "Belajar Bareng Automation User should be able to login, add a new user, and complete checkout \"before all\" hook in \"User should be able to login, add a new user, and complete checkout\"",
+                  "timedOut": false,
+                  "duration": 0,
+                  "state": null,
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "this.#data = {\n    validData: {\n        username: \"admin\",\n        password: \"admin\",\n    },\n    invalidData: {\n        username: \"invalid\",\n        password: \"invalid\",\n    },\n}\nthis.loginUrl = `${this.testContext.baseUrl}`;\nthis.loginPage = this.testContext.belajarBareng.loginPage;\nthis.addUsersPage = this.testContext.belajarBareng.addUsers;\nthis.userCheckout = this.testContext.belajarBareng.checkout;",
+                  "err": {},
+                  "uuid": "d7aac89c-ba41-4271-829d-8bc9661d93ad",
+                  "parentUUID": "1a9158de-0c92-4aaa-9764-c28a6822f271",
+                  "isHook": true,
+                  "skipped": false
+                }
+              ],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "Should return true when navigating to login page. Page title should be 'Login - User Management', page URL should be 'https://belajar-bareng.onrender.com/' and on the page should be the login form",
+                  "fullTitle": "Belajar Bareng Automation User should be able to login, add a new user, and complete checkout Should return true when navigating to login page. Page title should be 'Login - User Management', page URL should be 'https://belajar-bareng.onrender.com/' and on the page should be the login form",
+                  "timedOut": false,
+                  "duration": 5744,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await this.testContext.belajarBareng.loginPage.open(\n    this.loginUrl,\n    `${this.testContext.title}`\n);",
+                  "err": {},
+                  "uuid": "f2b4248a-8783-4ea8-84c6-352850ac7bc6",
+                  "parentUUID": "1a9158de-0c92-4aaa-9764-c28a6822f271",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "Should login successfully",
+                  "fullTitle": "Belajar Bareng Automation User should be able to login, add a new user, and complete checkout Should login successfully",
+                  "timedOut": false,
+                  "duration": 243,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await this.loginPage.loginForm();",
+                  "err": {},
+                  "uuid": "119e8213-c0ad-48f1-b8f6-bb48ac52edd5",
+                  "parentUUID": "1a9158de-0c92-4aaa-9764-c28a6822f271",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "Should go to the users page",
+                  "fullTitle": "Belajar Bareng Automation User should be able to login, add a new user, and complete checkout Should go to the users page",
+                  "timedOut": false,
+                  "duration": 759,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await this.addUsersPage.goToAddUserPage();",
+                  "err": {},
+                  "uuid": "a20b15e5-9590-47a7-b37f-b4a8934e7c7c",
+                  "parentUUID": "1a9158de-0c92-4aaa-9764-c28a6822f271",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "Should add a new user successfully",
+                  "fullTitle": "Belajar Bareng Automation User should be able to login, add a new user, and complete checkout Should add a new user successfully",
+                  "timedOut": false,
+                  "duration": 5923,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await this.addUsersPage.addUserForm(\n    `Quiz User`,\n    300\n);",
+                  "err": {},
+                  "uuid": "981ac41f-8ed1-4344-969a-c42cea38dbd9",
+                  "parentUUID": "1a9158de-0c92-4aaa-9764-c28a6822f271",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "User should be able to checkout",
+                  "fullTitle": "Belajar Bareng Automation User should be able to login, add a new user, and complete checkout User should be able to checkout",
+                  "timedOut": false,
+                  "duration": 2231,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await this.userCheckout.checkout();",
+                  "err": {},
+                  "uuid": "e7c52fde-603d-4e5a-9ba6-2fd343fb51f2",
+                  "parentUUID": "1a9158de-0c92-4aaa-9764-c28a6822f271",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "f2b4248a-8783-4ea8-84c6-352850ac7bc6",
+                "119e8213-c0ad-48f1-b8f6-bb48ac52edd5",
+                "a20b15e5-9590-47a7-b37f-b4a8934e7c7c",
+                "981ac41f-8ed1-4344-969a-c42cea38dbd9",
+                "e7c52fde-603d-4e5a-9ba6-2fd343fb51f2"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 14900,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 10000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "11.8.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "8.0.1"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.3.2"
+    }
+  }
+}
