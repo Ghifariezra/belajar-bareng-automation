@@ -5,9 +5,9 @@
     "passes": 14,
     "pending": 3,
     "failures": 0,
-    "start": "2026-08-20T15:03:29.491Z",
-    "end": "2026-08-20T15:03:54.708Z",
-    "duration": 25217,
+    "start": "2026-08-20T15:44:48.919Z",
+    "end": "2026-08-20T15:45:14.443Z",
+    "duration": 25524,
     "testsRegistered": 17,
     "passPercent": 100,
     "pendingPercent": 17.647058823529413,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "080eb703-92c0-452a-8578-f5aff64b1322",
+      "uuid": "96e71040-e40d-4dc8-bb10-b542f01050ec",
       "title": "",
       "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
       "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "446fa07d-89ed-4dfe-b4e8-ff55b605bb07",
+          "uuid": "53386499-5f0a-4ee1-a866-7b6ab86335b8",
           "title": "Belajar Bareng Automation",
           "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
           "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -36,7 +36,7 @@
               "title": "\"before all\" hook in \"Belajar Bareng Automation\"",
               "fullTitle": "Belajar Bareng Automation \"before all\" hook in \"Belajar Bareng Automation\"",
               "timedOut": false,
-              "duration": 780,
+              "duration": 1517,
               "state": null,
               "speed": null,
               "pass": false,
@@ -45,8 +45,8 @@
               "context": null,
               "code": "// 2. fill testContext\ntestContext.title = \"User Management\";\ntestContext.baseUrl = \"https://belajar-bareng.onrender.com\";\ntestContext.driver = await new Builder().forBrowser(\"chrome\").build();\ntestContext.belajarBareng = new BelajarBareng(testContext.driver, \"belajar-bareng\");",
               "err": {},
-              "uuid": "3640f0fa-bb02-4517-ae2d-de11ea6fadbf",
-              "parentUUID": "446fa07d-89ed-4dfe-b4e8-ff55b605bb07",
+              "uuid": "91aa15bd-2f15-4eb0-859f-0dc3de3f66ef",
+              "parentUUID": "53386499-5f0a-4ee1-a866-7b6ab86335b8",
               "isHook": true,
               "skipped": false
             }
@@ -65,8 +65,8 @@
               "context": null,
               "code": "if (testContext.belajarBareng && testContext.belajarBareng.driver) {\n    setTimeout(async () => {\n        await testContext.belajarBareng.driver.quit();\n    }, 5000);\n}",
               "err": {},
-              "uuid": "c37f7b3b-8239-4db3-8dc9-6a66bfd3f268",
-              "parentUUID": "446fa07d-89ed-4dfe-b4e8-ff55b605bb07",
+              "uuid": "b6731327-2760-46fa-a8de-459a34bc9877",
+              "parentUUID": "53386499-5f0a-4ee1-a866-7b6ab86335b8",
               "isHook": true,
               "skipped": false
             }
@@ -74,7 +74,7 @@
           "tests": [],
           "suites": [
             {
-              "uuid": "a6e5fa6a-f569-49df-8e64-1315be5d8c4a",
+              "uuid": "2a429be3-5178-4cd1-9f73-2a440534d10d",
               "title": "Login Page Functionality",
               "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
               "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -83,7 +83,7 @@
                   "title": "\"before all\" hook in \"Login Page Functionality\"",
                   "fullTitle": "Belajar Bareng Automation Login Page Functionality \"before all\" hook in \"Login Page Functionality\"",
                   "timedOut": false,
-                  "duration": 0,
+                  "duration": 1,
                   "state": null,
                   "speed": null,
                   "pass": false,
@@ -92,8 +92,8 @@
                   "context": null,
                   "code": "this.#data = {\n    emptyData: {},\n    validData: {\n        username: \"admin\",\n        password: \"admin\",\n    },\n}\nthis.loginUrl = `${this.testContext.baseUrl}`;\nthis.loginPage = this.testContext.belajarBareng.loginPage;",
                   "err": {},
-                  "uuid": "ed508b33-eacf-4afe-8a47-b99548d50136",
-                  "parentUUID": "a6e5fa6a-f569-49df-8e64-1315be5d8c4a",
+                  "uuid": "4aba5e90-68ab-4565-aa0b-7cfd27bba60b",
+                  "parentUUID": "2a429be3-5178-4cd1-9f73-2a440534d10d",
                   "isHook": true,
                   "skipped": false
                 }
@@ -102,7 +102,7 @@
               "tests": [],
               "suites": [
                 {
-                  "uuid": "1715ee75-707f-4b6e-9401-26d1efe9b340",
+                  "uuid": "116e197d-ebca-4a17-bcd6-711a8752decf",
                   "title": "Verify that the login page loads successfully with correct title, URL, and visible login form",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -122,8 +122,8 @@
                       "context": null,
                       "code": "",
                       "err": {},
-                      "uuid": "e721117c-2e27-47dd-a787-83ba0396da23",
-                      "parentUUID": "1715ee75-707f-4b6e-9401-26d1efe9b340",
+                      "uuid": "c893fb88-7af4-4b3d-afc2-ceeaf4ea0fc1",
+                      "parentUUID": "116e197d-ebca-4a17-bcd6-711a8752decf",
                       "isHook": false,
                       "skipped": false
                     }
@@ -132,7 +132,7 @@
                   "passes": [],
                   "failures": [],
                   "pending": [
-                    "e721117c-2e27-47dd-a787-83ba0396da23"
+                    "c893fb88-7af4-4b3d-afc2-ceeaf4ea0fc1"
                   ],
                   "skipped": [],
                   "duration": 0,
@@ -141,7 +141,7 @@
                   "_timeout": 10000
                 },
                 {
-                  "uuid": "c4a8f479-d4a2-4871-90e3-7cf47649a08c",
+                  "uuid": "0258d98d-abf4-4b67-8dfd-531b5018df11",
                   "title": "Should fail to login with empty credentials",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -152,7 +152,7 @@
                       "title": "Should open the base URL successfully",
                       "fullTitle": "Belajar Bareng Automation Login Page Functionality Should fail to login with empty credentials Should open the base URL successfully",
                       "timedOut": false,
-                      "duration": 3180,
+                      "duration": 2349,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -161,8 +161,8 @@
                       "context": null,
                       "code": "await this.testContext.belajarBareng.loginPage.open(\n    `${this.loginUrl}/`,\n    `${this.testContext.title}`\n);",
                       "err": {},
-                      "uuid": "7d5492e5-f370-4e37-baca-8cfadfab2b14",
-                      "parentUUID": "c4a8f479-d4a2-4871-90e3-7cf47649a08c",
+                      "uuid": "c1420dea-6f64-415a-83b1-ab88c6848998",
+                      "parentUUID": "0258d98d-abf4-4b67-8dfd-531b5018df11",
                       "isHook": false,
                       "skipped": false
                     },
@@ -170,7 +170,7 @@
                       "title": "Should fail to login with empty credentials",
                       "fullTitle": "Belajar Bareng Automation Login Page Functionality Should fail to login with empty credentials Should fail to login with empty credentials",
                       "timedOut": false,
-                      "duration": 1301,
+                      "duration": 1279,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -179,27 +179,27 @@
                       "context": null,
                       "code": "await this.loginPage.loginForm(\n    this.#data.emptyData,\n    \"empty\"\n);",
                       "err": {},
-                      "uuid": "7e140eb6-7b89-4241-a4af-089bd8e4e72e",
-                      "parentUUID": "c4a8f479-d4a2-4871-90e3-7cf47649a08c",
+                      "uuid": "18a8ad62-55a7-4bda-bd56-7bf2d0c08a9f",
+                      "parentUUID": "0258d98d-abf4-4b67-8dfd-531b5018df11",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "7d5492e5-f370-4e37-baca-8cfadfab2b14",
-                    "7e140eb6-7b89-4241-a4af-089bd8e4e72e"
+                    "c1420dea-6f64-415a-83b1-ab88c6848998",
+                    "18a8ad62-55a7-4bda-bd56-7bf2d0c08a9f"
                   ],
                   "failures": [],
                   "pending": [],
                   "skipped": [],
-                  "duration": 4481,
+                  "duration": 3628,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
                 },
                 {
-                  "uuid": "62df2337-3fe1-46b2-88f6-dc08e268da99",
+                  "uuid": "a3c521ce-dc8d-4d39-9386-986a680ebbf6",
                   "title": "Should fail to login with missing credentials",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -210,7 +210,7 @@
                       "title": "Should fail to login with missing credentials",
                       "fullTitle": "Belajar Bareng Automation Login Page Functionality Should fail to login with missing credentials Should fail to login with missing credentials",
                       "timedOut": false,
-                      "duration": 1267,
+                      "duration": 1279,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -219,26 +219,26 @@
                       "context": null,
                       "code": "await this.loginPage.loginForm(\n    this.#data.emptyData,\n    \"missing\"\n);",
                       "err": {},
-                      "uuid": "6cbba519-18f5-40ea-8c5c-a6a702b88853",
-                      "parentUUID": "62df2337-3fe1-46b2-88f6-dc08e268da99",
+                      "uuid": "863a59c1-04bd-4bd1-8a8f-e3696257eb00",
+                      "parentUUID": "a3c521ce-dc8d-4d39-9386-986a680ebbf6",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "6cbba519-18f5-40ea-8c5c-a6a702b88853"
+                    "863a59c1-04bd-4bd1-8a8f-e3696257eb00"
                   ],
                   "failures": [],
                   "pending": [],
                   "skipped": [],
-                  "duration": 1267,
+                  "duration": 1279,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
                 },
                 {
-                  "uuid": "645b68c8-cb9e-4dea-b925-2de791284fe0",
+                  "uuid": "13b89aa4-3ed8-4f69-865f-123ef88b96f2",
                   "title": "Should fail to login with invalid credentials",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -249,7 +249,7 @@
                       "title": "Should fail to login with invalid credentials",
                       "fullTitle": "Belajar Bareng Automation Login Page Functionality Should fail to login with invalid credentials Should fail to login with invalid credentials",
                       "timedOut": false,
-                      "duration": 5356,
+                      "duration": 5588,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -258,26 +258,26 @@
                       "context": null,
                       "code": "await this.loginPage.loginForm(\n    this.#data.emptyData,\n    \"invalid\"\n);",
                       "err": {},
-                      "uuid": "c93206f1-63ea-43d7-bb5f-8b2b1321a28f",
-                      "parentUUID": "645b68c8-cb9e-4dea-b925-2de791284fe0",
+                      "uuid": "e8936579-572f-4add-90db-5c157f7e9090",
+                      "parentUUID": "13b89aa4-3ed8-4f69-865f-123ef88b96f2",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "c93206f1-63ea-43d7-bb5f-8b2b1321a28f"
+                    "e8936579-572f-4add-90db-5c157f7e9090"
                   ],
                   "failures": [],
                   "pending": [],
                   "skipped": [],
-                  "duration": 5356,
+                  "duration": 5588,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
                 },
                 {
-                  "uuid": "5f8958c1-5af2-4e47-a474-7b9da4cc4c08",
+                  "uuid": "5d96988f-26e0-47a4-82c5-e510c1301cc1",
                   "title": "Should successfully login with valid credentials",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -288,7 +288,7 @@
                       "title": "Should login successfully",
                       "fullTitle": "Belajar Bareng Automation Login Page Functionality Should successfully login with valid credentials Should login successfully",
                       "timedOut": false,
-                      "duration": 234,
+                      "duration": 243,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -297,26 +297,26 @@
                       "context": null,
                       "code": "await this.loginPage.loginForm(\n    this.#data.validData,\n    \"valid\"\n);",
                       "err": {},
-                      "uuid": "c2560d10-17b4-47ff-ba3e-77031bc3085c",
-                      "parentUUID": "5f8958c1-5af2-4e47-a474-7b9da4cc4c08",
+                      "uuid": "1b2eb325-ddfe-4db7-ab55-7354830a902e",
+                      "parentUUID": "5d96988f-26e0-47a4-82c5-e510c1301cc1",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "c2560d10-17b4-47ff-ba3e-77031bc3085c"
+                    "1b2eb325-ddfe-4db7-ab55-7354830a902e"
                   ],
                   "failures": [],
                   "pending": [],
                   "skipped": [],
-                  "duration": 234,
+                  "duration": 243,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
                 },
                 {
-                  "uuid": "54f40d59-c745-4772-aa94-be710ab25c75",
+                  "uuid": "4ca47058-bacd-4a96-aab6-0ca2d606e74d",
                   "title": "Should navigate to the users page after successful login",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -327,7 +327,7 @@
                       "title": "Should navigate to the users page after successful login",
                       "fullTitle": "Belajar Bareng Automation Login Page Functionality Should navigate to the users page after successful login Should navigate to the users page after successful login",
                       "timedOut": false,
-                      "duration": 1052,
+                      "duration": 1048,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -336,20 +336,20 @@
                       "context": null,
                       "code": "await this.loginPage.goToUsersPage();",
                       "err": {},
-                      "uuid": "dc38fca1-5356-4564-8d22-09069eade8c8",
-                      "parentUUID": "54f40d59-c745-4772-aa94-be710ab25c75",
+                      "uuid": "79fc9257-2bc7-48d0-b3f3-f15c5a2bca7f",
+                      "parentUUID": "4ca47058-bacd-4a96-aab6-0ca2d606e74d",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "dc38fca1-5356-4564-8d22-09069eade8c8"
+                    "79fc9257-2bc7-48d0-b3f3-f15c5a2bca7f"
                   ],
                   "failures": [],
                   "pending": [],
                   "skipped": [],
-                  "duration": 1052,
+                  "duration": 1048,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
@@ -365,7 +365,7 @@
               "_timeout": 10000
             },
             {
-              "uuid": "25c41de9-8457-4782-8297-55142edb22a7",
+              "uuid": "88ddffd4-6f6c-4782-ae25-f14d1303cd30",
               "title": "Add Users Page Functionality",
               "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
               "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -383,8 +383,8 @@
                   "context": null,
                   "code": "this.#data = {\n    emptyData: {},\n    newUser: {\n        username: \"QuizLovers\",\n        age: 300,\n    },\n};\nthis.addUsersPage = this.testContext.belajarBareng.addUsers;",
                   "err": {},
-                  "uuid": "ceb19ff2-66aa-4915-b539-040864198261",
-                  "parentUUID": "25c41de9-8457-4782-8297-55142edb22a7",
+                  "uuid": "dd25aa19-211e-4d1b-9fdc-53ac63254aae",
+                  "parentUUID": "88ddffd4-6f6c-4782-ae25-f14d1303cd30",
                   "isHook": true,
                   "skipped": false
                 }
@@ -393,7 +393,7 @@
               "tests": [],
               "suites": [
                 {
-                  "uuid": "f0c660eb-5723-40ef-95a1-1b4bccc3d17e",
+                  "uuid": "45f666e9-f78f-467d-bc7b-6f4a81542896",
                   "title": "Should block add user form submission when username or age is empty",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -404,7 +404,7 @@
                       "title": "Should go to the users page",
                       "fullTitle": "Belajar Bareng Automation Add Users Page Functionality Should block add user form submission when username or age is empty Should go to the users page",
                       "timedOut": false,
-                      "duration": 354,
+                      "duration": 340,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -413,8 +413,8 @@
                       "context": null,
                       "code": "await this.addUsersPage.goToAddUserPage();",
                       "err": {},
-                      "uuid": "90ca667b-8471-45cd-9790-53a1535e6b14",
-                      "parentUUID": "f0c660eb-5723-40ef-95a1-1b4bccc3d17e",
+                      "uuid": "ab5a7c40-ec4e-44ff-b6ec-c0cb168026ff",
+                      "parentUUID": "45f666e9-f78f-467d-bc7b-6f4a81542896",
                       "isHook": false,
                       "skipped": false
                     },
@@ -422,7 +422,7 @@
                       "title": "Should block add user form submission when username is empty",
                       "fullTitle": "Belajar Bareng Automation Add Users Page Functionality Should block add user form submission when username or age is empty Should block add user form submission when username is empty",
                       "timedOut": false,
-                      "duration": 1273,
+                      "duration": 1255,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -431,27 +431,27 @@
                       "context": null,
                       "code": "await this.addUsersPage.addUserForm(\n    this.#data.emptyData,\n    \"empty\"\n);",
                       "err": {},
-                      "uuid": "1ce6f3fc-6c71-44d3-a7be-e0d61f791f46",
-                      "parentUUID": "f0c660eb-5723-40ef-95a1-1b4bccc3d17e",
+                      "uuid": "254e3cb2-03e5-4204-97c5-ea2d1512dc21",
+                      "parentUUID": "45f666e9-f78f-467d-bc7b-6f4a81542896",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "90ca667b-8471-45cd-9790-53a1535e6b14",
-                    "1ce6f3fc-6c71-44d3-a7be-e0d61f791f46"
+                    "ab5a7c40-ec4e-44ff-b6ec-c0cb168026ff",
+                    "254e3cb2-03e5-4204-97c5-ea2d1512dc21"
                   ],
                   "failures": [],
                   "pending": [],
                   "skipped": [],
-                  "duration": 1627,
+                  "duration": 1595,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
                 },
                 {
-                  "uuid": "26a4df53-d4de-4525-a7af-30d5a8bebf7f",
+                  "uuid": "aa8ed231-69b2-4bc1-83ff-0a47114620b9",
                   "title": "Should block add user form submission when username or age is missing",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -462,7 +462,7 @@
                       "title": "Should block add user form submission when username or age is missing",
                       "fullTitle": "Belajar Bareng Automation Add Users Page Functionality Should block add user form submission when username or age is missing Should block add user form submission when username or age is missing",
                       "timedOut": false,
-                      "duration": 1249,
+                      "duration": 1245,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -471,26 +471,26 @@
                       "context": null,
                       "code": "this.#data.emptyData = {\n    username: \"QuizLovers\",\n}\nawait this.addUsersPage.addUserForm(this.#data.emptyData, \"missing\");",
                       "err": {},
-                      "uuid": "29d73c06-6fb4-422d-90fe-e41b72eed19b",
-                      "parentUUID": "26a4df53-d4de-4525-a7af-30d5a8bebf7f",
+                      "uuid": "bffaf5b7-1520-4795-b85c-e5a8dcfc9fac",
+                      "parentUUID": "aa8ed231-69b2-4bc1-83ff-0a47114620b9",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "29d73c06-6fb4-422d-90fe-e41b72eed19b"
+                    "bffaf5b7-1520-4795-b85c-e5a8dcfc9fac"
                   ],
                   "failures": [],
                   "pending": [],
                   "skipped": [],
-                  "duration": 1249,
+                  "duration": 1245,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
                 },
                 {
-                  "uuid": "daff24dd-0a14-4937-b122-2f90deb64cec",
+                  "uuid": "06410519-97ec-40d3-bd31-90d6eff0b235",
                   "title": "Should block add user form submission when username or age is invalid",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -501,7 +501,7 @@
                       "title": "Should block add user form submission when username or age is invalid",
                       "fullTitle": "Belajar Bareng Automation Add Users Page Functionality Should block add user form submission when username or age is invalid Should block add user form submission when username or age is invalid",
                       "timedOut": false,
-                      "duration": 1335,
+                      "duration": 1333,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -510,8 +510,8 @@
                       "context": null,
                       "code": "this.#data.emptyData = {\n    username: 123,\n    age: \"300\",\n};\nawait this.addUsersPage.addUserForm(this.#data.emptyData, \"invalid\");",
                       "err": {},
-                      "uuid": "cd118af6-6b54-4323-a7fd-a5047530f30d",
-                      "parentUUID": "daff24dd-0a14-4937-b122-2f90deb64cec",
+                      "uuid": "eeb31bd9-d63e-41dc-ab85-73e3c296c688",
+                      "parentUUID": "06410519-97ec-40d3-bd31-90d6eff0b235",
                       "isHook": false,
                       "skipped": false
                     },
@@ -519,7 +519,7 @@
                       "title": "Characters in the username input should not longer be than 10 characters",
                       "fullTitle": "Belajar Bareng Automation Add Users Page Functionality Should block add user form submission when username or age is invalid Characters in the username input should not longer be than 10 characters",
                       "timedOut": false,
-                      "duration": 184,
+                      "duration": 191,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -528,27 +528,27 @@
                       "context": null,
                       "code": "this.#data.emptyData = {\n    username: \"axaxaxaxaxaxa\",\n    age: \"300\",\n};\nawait this.addUsersPage.addUserForm(this.#data.emptyData, \"invalid\");",
                       "err": {},
-                      "uuid": "f79812e3-005a-4f2c-b53b-34a9fb04d4c3",
-                      "parentUUID": "daff24dd-0a14-4937-b122-2f90deb64cec",
+                      "uuid": "2f710bab-66cf-4e73-a975-0a535fa3d1ff",
+                      "parentUUID": "06410519-97ec-40d3-bd31-90d6eff0b235",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "cd118af6-6b54-4323-a7fd-a5047530f30d",
-                    "f79812e3-005a-4f2c-b53b-34a9fb04d4c3"
+                    "eeb31bd9-d63e-41dc-ab85-73e3c296c688",
+                    "2f710bab-66cf-4e73-a975-0a535fa3d1ff"
                   ],
                   "failures": [],
                   "pending": [],
                   "skipped": [],
-                  "duration": 1519,
+                  "duration": 1524,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
                 },
                 {
-                  "uuid": "93ec1b90-eb89-44ca-b7f9-8f0803a22205",
+                  "uuid": "3001ec39-5ed1-4dba-bf5e-3d3b18ab8854",
                   "title": "User should be able to add a new user",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -568,8 +568,8 @@
                       "context": null,
                       "code": "",
                       "err": {},
-                      "uuid": "9e877847-6b3d-46f6-b210-a0fbde3b0a8e",
-                      "parentUUID": "93ec1b90-eb89-44ca-b7f9-8f0803a22205",
+                      "uuid": "88db4f7b-fca1-45e8-a53c-9a8af7acf07d",
+                      "parentUUID": "3001ec39-5ed1-4dba-bf5e-3d3b18ab8854",
                       "isHook": false,
                       "skipped": false
                     },
@@ -577,7 +577,7 @@
                       "title": "Should add a new user successfully",
                       "fullTitle": "Belajar Bareng Automation Add Users Page Functionality User should be able to add a new user Should add a new user successfully",
                       "timedOut": false,
-                      "duration": 5567,
+                      "duration": 5577,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -586,8 +586,8 @@
                       "context": null,
                       "code": "await this.addUsersPage.addUserForm(this.#data.newUser, \"add\");",
                       "err": {},
-                      "uuid": "69f78061-fcbf-4e15-be07-d091bfe8088c",
-                      "parentUUID": "93ec1b90-eb89-44ca-b7f9-8f0803a22205",
+                      "uuid": "7f0c6f20-e8fe-458c-b0d9-ce606a0b398f",
+                      "parentUUID": "3001ec39-5ed1-4dba-bf5e-3d3b18ab8854",
                       "isHook": false,
                       "skipped": false
                     },
@@ -604,8 +604,8 @@
                       "context": null,
                       "code": "",
                       "err": {},
-                      "uuid": "a403cfb5-f966-4974-8f19-34c4af36761c",
-                      "parentUUID": "93ec1b90-eb89-44ca-b7f9-8f0803a22205",
+                      "uuid": "d70a71cf-5946-4cfe-a8aa-5800144a6bbf",
+                      "parentUUID": "3001ec39-5ed1-4dba-bf5e-3d3b18ab8854",
                       "isHook": false,
                       "skipped": false
                     },
@@ -613,7 +613,7 @@
                       "title": "Should go to the shop page",
                       "fullTitle": "Belajar Bareng Automation Add Users Page Functionality User should be able to add a new user Should go to the shop page",
                       "timedOut": false,
-                      "duration": 84,
+                      "duration": 90,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -622,24 +622,24 @@
                       "context": null,
                       "code": "await this.addUsersPage.goToShopPage();",
                       "err": {},
-                      "uuid": "f075cc8c-977a-43ee-ad90-2400d1ef1417",
-                      "parentUUID": "93ec1b90-eb89-44ca-b7f9-8f0803a22205",
+                      "uuid": "a3112003-e135-4f49-8341-c683781c7ac6",
+                      "parentUUID": "3001ec39-5ed1-4dba-bf5e-3d3b18ab8854",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "69f78061-fcbf-4e15-be07-d091bfe8088c",
-                    "f075cc8c-977a-43ee-ad90-2400d1ef1417"
+                    "7f0c6f20-e8fe-458c-b0d9-ce606a0b398f",
+                    "a3112003-e135-4f49-8341-c683781c7ac6"
                   ],
                   "failures": [],
                   "pending": [
-                    "9e877847-6b3d-46f6-b210-a0fbde3b0a8e",
-                    "a403cfb5-f966-4974-8f19-34c4af36761c"
+                    "88db4f7b-fca1-45e8-a53c-9a8af7acf07d",
+                    "d70a71cf-5946-4cfe-a8aa-5800144a6bbf"
                   ],
                   "skipped": [],
-                  "duration": 5651,
+                  "duration": 5667,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
@@ -655,7 +655,7 @@
               "_timeout": 10000
             },
             {
-              "uuid": "14faeced-8349-4561-929a-693e1fb7c1e4",
+              "uuid": "a36f5f08-8232-4540-a72c-0bfedcf11cd9",
               "title": "Checkout Page Functionality",
               "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
               "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -673,8 +673,8 @@
                   "context": null,
                   "code": "this.userCheckout = this.testContext.belajarBareng.checkout;",
                   "err": {},
-                  "uuid": "6689a453-43f3-4890-8e20-630394df6317",
-                  "parentUUID": "14faeced-8349-4561-929a-693e1fb7c1e4",
+                  "uuid": "f6589cf6-ae2e-4c45-a28e-da0dc446439f",
+                  "parentUUID": "a36f5f08-8232-4540-a72c-0bfedcf11cd9",
                   "isHook": true,
                   "skipped": false
                 }
@@ -683,7 +683,7 @@
               "tests": [],
               "suites": [
                 {
-                  "uuid": "f663d78c-8177-44fc-8fc2-5a7eea31f74b",
+                  "uuid": "44b6484c-2c31-4a4f-975d-d72242eab0bd",
                   "title": "User should be able to complete checkout",
                   "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
                   "file": "\\tests\\belajar-bareng\\index.test.js",
@@ -694,7 +694,7 @@
                       "title": "User should be able to checkout",
                       "fullTitle": "Belajar Bareng Automation Checkout Page Functionality User should be able to complete checkout User should be able to checkout",
                       "timedOut": false,
-                      "duration": 1978,
+                      "duration": 2171,
                       "state": "passed",
                       "speed": "slow",
                       "pass": true,
@@ -703,20 +703,20 @@
                       "context": null,
                       "code": "await this.userCheckout.checkout();",
                       "err": {},
-                      "uuid": "b62a7a00-d711-4a20-b079-abdfe3af0ba5",
-                      "parentUUID": "f663d78c-8177-44fc-8fc2-5a7eea31f74b",
+                      "uuid": "901ef1da-638a-4525-8b9f-ca2c794228c5",
+                      "parentUUID": "44b6484c-2c31-4a4f-975d-d72242eab0bd",
                       "isHook": false,
                       "skipped": false
                     }
                   ],
                   "suites": [],
                   "passes": [
-                    "b62a7a00-d711-4a20-b079-abdfe3af0ba5"
+                    "901ef1da-638a-4525-8b9f-ca2c794228c5"
                   ],
                   "failures": [],
                   "pending": [],
                   "skipped": [],
-                  "duration": 1978,
+                  "duration": 2171,
                   "root": false,
                   "rootEmpty": false,
                   "_timeout": 10000
