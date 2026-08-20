@@ -1,5 +1,3 @@
-import { By } from "selenium-webdriver";
-import assert from "assert";
 import { before, describe, it } from "mocha";
 
 export class LoginTest {
@@ -10,58 +8,80 @@ export class LoginTest {
     }
 
     run() {
-        // describe("Login Page Functionality", () => {
-        describe("User should be able to login, add a new user, and complete checkout", () => {
+        describe("Login Page Functionality", () => {
             before(async () => {
                 this.#data = {
+                    emptyData: {},
                     validData: {
                         username: "admin",
                         password: "admin",
                     },
-                    invalidData: {
-                        username: "invalid",
-                        password: "invalid",
-                    },
                 }
                 this.loginUrl = `${this.testContext.baseUrl}`;
                 this.loginPage = this.testContext.belajarBareng.loginPage;
-                this.addUsersPage = this.testContext.belajarBareng.addUsers;
-                this.userCheckout = this.testContext.belajarBareng.checkout;
             });
 
-            it("Should return true when navigating to login page. Page title should be 'Login - User Management', page URL should be 'https://belajar-bareng.onrender.com/' and on the page should be the login form", async () => {
-                await this.testContext.belajarBareng.loginPage.open(
-                    this.loginUrl,
-                    `${this.testContext.title}`
-                );
-            });
-
-            it("Should login successfully", async () => {
-                await this.loginPage.loginForm();
-            });
-
-            it("Should go to the users page", async () => {
-                await this.addUsersPage.goToAddUserPage();
-            });
-
-            it("Should add a new user successfully", async () => {
-                await this.addUsersPage.addUserForm(
-                    `Quiz User`,
-                    300
-                );
-            });
-
-            it("User should be able to checkout", async () => {
-                await this.userCheckout.checkout();
-            });
+            describe("Verify that the login page loads successfully with correct title, URL, and visible login form", () => this.#verifyLoginPage());
             
-            // it.skip("Should go to the dashboard when login with valid credentials and validate path url after login", async () => {
-            //     await this.loginPage.loginForm();
-            // });
+            describe("Should fail to login with empty credentials", () => this.#emptyLogin());
 
-            // it.skip("Should login successfully", async () => {
-            //     assert.ok(true, "Login functionality test passed");
-            // });
+            describe("Should fail to login with missing credentials", () => this.#missingLogin());
+            
+            describe("Should fail to login with invalid credentials", () => this.#invalidLogin());
+
+            describe("Should successfully login with valid credentials", () => this.#validLogin());
+        });
+    }
+
+    #verifyLoginPage() {
+        it("Should open the base URL successfully", async () => {
+            await this.testContext.belajarBareng.loginPage.open(
+                `${this.loginUrl}/login`,
+                `Login - ${this.testContext.title}`
+            );
+        });
+    }
+
+    #emptyLogin() {
+        it("Should open the base URL successfully", async () => {
+            await this.testContext.belajarBareng.loginPage.open(
+                `${this.loginUrl}/`,
+                `${this.testContext.title}`
+            );
+        });
+
+        it("Should fail to login with empty credentials", async () => {
+            await this.loginPage.loginForm(
+                this.#data.emptyData,
+                "empty"
+            );
+        });
+    }
+
+    #missingLogin() {
+        it("Should fail to login with missing credentials", async () => {
+            await this.loginPage.loginForm(
+                this.#data.emptyData,
+                "missing"
+            );
+        });
+    }
+
+    #invalidLogin() {
+        it("Should fail to login with invalid credentials", async () => {
+            await this.loginPage.loginForm(
+                this.#data.emptyData,
+                "invalid"
+            );
+        });
+    }
+
+    #validLogin() {
+        it("Should login successfully", async () => {
+            await this.loginPage.loginForm(
+                this.#data.validData,
+                "valid"
+            );
         });
     }
 }

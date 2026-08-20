@@ -4,8 +4,7 @@ import assert from "assert";
 import { before, after, describe, it } from "mocha";
 
 // Import Class yang baru dibuat
-import { LoginTest } from "./modules/login.test.js";
-import { AddUsersTest } from "./modules/add.users.test.js";
+import { LoginTest, AddUsersTest, CheckoutTest } from "./modules/index.test.js";
 
 describe("Belajar Bareng Automation", function () {
     // Context global
@@ -14,7 +13,7 @@ describe("Belajar Bareng Automation", function () {
     before(async function () {
         // 2. fill testContext
         testContext.title = "User Management";
-        testContext.baseUrl = "https://belajar-bareng.onrender.com/";
+        testContext.baseUrl = "https://belajar-bareng.onrender.com";
         testContext.driver = await new Builder().forBrowser("chrome").build();
         testContext.belajarBareng = new BelajarBareng(testContext.driver, "belajar-bareng");
     });
@@ -27,11 +26,8 @@ describe("Belajar Bareng Automation", function () {
         }
     });
 
-    // it.skip("Should open the base URL successfully", async function () {
-    //     await testContext.belajarBareng.loginPage.open(testContext.baseUrl);
-    // });
-
     // 3. Run the test classes
     new LoginTest(testContext).run();
-    // new AddUsersTest(testContext).run();
+    new AddUsersTest(testContext).run();
+    new CheckoutTest(testContext).run();
 });

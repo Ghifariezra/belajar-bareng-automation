@@ -287,44 +287,44 @@ export class Checkout extends BasePage {
     }
 
     async #bypassCaptcha(form) {
-        // Validate captcha question
         const captchaQuestion = await form.findElement(
             By.xpath(this.#checkoutCaptchaQuestionLocator)
         );
         const captchaQuestionText = await captchaQuestion.getText();
+
         assert.ok(
             captchaQuestionText.includes("What is"),
             "Captcha question does not match expected value"
         );
 
-        // Extract numbers from the captcha question
-        const numbers = captchaQuestionText.match(/\d+/g);
-        assert.ok(numbers && numbers.length === 2, "Captcha question does not contain two numbers");
+        const extracts = captchaQuestionText.match(/\d+|[\+\-\*\/]/g);
+        assert.ok(
+            extracts && extracts.length === 3,
+            "Captcha question format is invalid"
+        );
 
-        // Extract operator from the captcha question
-        const operator = captchaQuestionText.match(/[+\-*/]/g);
-        assert.ok(operator, "Captcha question does not contain a valid operator");
+        const [num1Str, opStr, num2Str] = extracts;
+        const num1 = parseInt(num1Str, 10);
+        const num2 = parseInt(num2Str, 10);
 
-        // Calculate the answer based on the operator
         let answer;
-        switch (operator[0]) {
+        switch (opStr) {
             case "+":
-                answer = parseInt(numbers[0]) + parseInt(numbers[1]);
+                answer = num1 + num2;
                 break;
             case "-":
-                answer = parseInt(numbers[0]) - parseInt(numbers[1]);
+                answer = num1 - num2;
                 break;
             case "*":
-                answer = parseInt(numbers[0]) * parseInt(numbers[1]);
+                answer = num1 * num2;
                 break;
             case "/":
-                answer = parseInt(numbers[0]) / parseInt(numbers[1]);
+                answer = num1 / num2;
                 break;
             default:
-                throw new Error("Invalid operator");
+                throw new Error(`Invalid operator: ${opStr}`);
         }
 
-        // Input the answer
         const answerInput = await form.findElement(
             By.xpath(this.#checkoutCaptchaAnswerInputLocator)
         );

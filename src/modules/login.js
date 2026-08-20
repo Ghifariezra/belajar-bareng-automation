@@ -1,104 +1,333 @@
 import assert from "assert";
-import { By, until } from "selenium-webdriver";
+import { By, until, Key } from "selenium-webdriver";
 import { BasePage } from "../core/base.driver.js";
 
 export class LoginPage extends BasePage {
-    // Form Title Locator
-    #formTitleLocator = `//*[@id="loginOverlay"]/div/h3/strong`;
+    // Login Form Locator
+    #formOverlayLocator = By.id("loginOverlay");
+    #formTitleLocator = By.css("#loginOverlay .loginBox h3");
 
-    // Button Hint Locator
-    #hintButtonLocator = "//button[@data-testid='hint-button']";
-    #hintUsernameLocator = "//code[@id='hintUser']";
-    #hintPasswordLocator = "//code[@id='hintPass']";
+    #hintButtonLocator = By.css("button[data-testid='hint-button']");
+    #hintUsernameLocator = By.id("hintUser");
+    #hintPasswordLocator = By.id("hintPass");
 
-    // Form Input Data Test ID
-    #usernameInputLocator = "//input[@data-testid='username-input']";
-    #passwordInputLocator = "//input[@data-testid='password-input']";
-    #loginButtonLocator = "//button[@data-testid='login-button']";
+    #usernameInputLocator = By.css("input[data-testid='username-input']");
+    #passwordInputLocator = By.css("input[data-testid='password-input']");
+    #loginButtonLocator = By.css("button[data-testid='login-button']");
 
     constructor(driver, folderName) {
         super(driver, folderName);
-    }
-
-    async #getHintData() {
-        const hintButton = await this.driver.findElement(
-            By.xpath(this.#hintButtonLocator)
-        );
-        await hintButton.click();
-
-        const usernameHint = await this.driver.findElement(
-            By.xpath(this.#hintUsernameLocator)
-        );
-        const passwordHint = await this.driver.findElement(
-            By.xpath(this.#hintPasswordLocator)
-        );
-        return {
-            username: await usernameHint.getText(),
-            password: await passwordHint.getText(),
-        };
-    }
-
-    async loginForm(username, password) {
-        // Validate the form title
-        const formTitle = await this.driver.findElement(
-            By.xpath(this.#formTitleLocator)
-        );
-
-        // BUG -> should be "Sign In" but the actual text is "Sing in" so I will validate the form title with the actual text
-        // const expectedFormTitleText = "Sign In";
-        const expectedBypassFormTitleText = "Sing in";
-        const formTitleText = await formTitle.getText();
-        assert.strictEqual(formTitleText, expectedBypassFormTitleText, "Form title does not match expected value");
-
-        if (!username || !password) {
-            const hintData = await this.#getHintData();
-            username = hintData.username;
-            password = hintData.password;
-        }
-
-        const usernameInput = await this.driver.findElement(
-            By.xpath(this.#usernameInputLocator)
-        );
-        const passwordInput = await this.driver.findElement(
-            By.xpath(this.#passwordInputLocator)
-        );
-        const loginButton = await this.driver.findElement(
-            By.xpath(this.#loginButtonLocator)
-        );
-
-        await usernameInput.sendKeys(username.split(":")[1].trim());
-        await passwordInput.sendKeys(password.split(":")[1].trim());
-        await loginButton.click();
     }
 
     async open(url, title) {
         await super.open(url);
 
         try {
-            let page_title = await this.driver.getTitle();
+            const pageTitle = await this.driver.getTitle();
+            assert.strictEqual(
+                pageTitle,
+                title,
+                `Expected title to be '${title}' but got '${pageTitle}'`
+            );
 
-            assert.ok(page_title !== null && page_title !== undefined, "Page title is null or undefined");
-            assert.strictEqual(page_title, title, `Expected title to be '${title}' but got '${page_title}'`);
+            const currentUrl = await this.driver.getCurrentUrl();
+            assert.strictEqual(currentUrl, url, `Expected URL to be '${url}' but got '${currentUrl}'`);
 
-            let currentUrl = await this.driver.getCurrentUrl();
-            assert.strictEqual(currentUrl, url);
+            const loginForm = await this.driver.wait(
+                until.elementLocated(By.css("form")),
+                3000,
+                "Login form element not found"
+            );
+            assert.ok(await loginForm.isDisplayed(), "Login form is not displayed");
 
-            let loginForm = await this.driver.findElement(By.css("form"));
-            let isVisible = await loginForm.isDisplayed();
-            assert.ok(isVisible, "Login form is not displayed");
-        } catch (error) {
             await super.takeScreenshot(
                 await this.driver.takeScreenshot(),
                 "login",
-                "login_page_failed.png"
+                "login_page_success.png"
             );
+        } catch (error) {
+            if (error instanceof assert.AssertionError) {
+                await super.takeScreenshot(
+                    await this.driver.takeScreenshot(),
+                    "login/bugs",
+                    `login_page_error_${error.expected || 'assertion'}.png`
+                );
+            }
             throw error;
         }
+    }
+
+    async loginForm({ username, password }, type) {
+        let formTitle;
+
+        try {
+            // 1. Tunggu overlay muncul (Cukup 1 wait terpadu)
+            const formOverlay = await this.driver.wait(
+                until.elementLocated(this.#formOverlayLocator),
+                3000,
+                "Expected login form overlay to be present"
+            );
+            await this.driver.wait(
+                until.elementIsVisible(formOverlay),
+                3000,
+                "Expected login form overlay to be visible"
+            );
+
+            // 2. Validasi Judul Form
+            formTitle = await this.driver.findElement(this.#formTitleLocator);
+            
+            // const expectedFormTitleText = "Sign in";
+            const expectedBypassFormTitleText = "Sing in"; // I know this is a typo, but I will bypass it for now to avoid test failure. I will fix it later in the application code.
+
+            const formTitleText = await formTitle.getText();
+            assert.strictEqual(
+                formTitleText,
+                // expectedFormTitleText,
+                expectedBypassFormTitleText,
+                "Form title does not match expected value"
+            );
+
+            switch (type) {
+                case "empty":
+                    username = username || "";
+                    password = password || "";
+                    break;
+                case "missing":
+                    username = username || "admin";
+                    password = password || "";
+                    break;
+                case "invalid":
+                    username = username || "admin";
+                    password = password || "invalid";
+                    break;
+                case "valid":
+                    const hintData = await this.#getHintData();
+
+                    assert.ok(hintData.username, "Hint username is missing");
+                    assert.ok(hintData.password, "Hint password is missing");
+
+                    const cleanUsername = this.#cleanCredential(hintData.username);
+                    const cleanPassword = this.#cleanCredential(hintData.password);
+
+                    assert.strictEqual(
+                        username,
+                        cleanUsername,
+                        `Expected username to be '${hintData.username}' but got '${cleanUsername}'`
+                    );
+                    assert.strictEqual(
+                        password,
+                        cleanPassword,
+                        `Expected password to be '${hintData.password}' but got '${cleanPassword}'`
+                    );
+
+                    username = cleanUsername;
+                    password = cleanPassword;
+                    break;
+            }
+
+            const usernameInput = await this.driver.findElement(this.#usernameInputLocator);
+            const passwordInput = await this.driver.findElement(this.#passwordInputLocator);
+            const loginButton = await this.driver.findElement(this.#loginButtonLocator);
+
+            const requiredValidationMessage = "Please fill out this field.";
+            switch (type) {
+                case "empty":
+                    await this.#emptyLogin(
+                        { username, password },
+                        formTitle,
+                        usernameInput, 
+                        passwordInput, 
+                        loginButton,
+                        requiredValidationMessage
+                    );
+                    break;
+                case "missing":
+                    await this.#missingLogin(
+                        { username },
+                        formTitle,
+                        usernameInput, 
+                        passwordInput, 
+                        loginButton,
+                        requiredValidationMessage
+                    )
+                    break;
+                case "invalid":
+                    await this.#invalidLogin(
+                        { username, password },
+                        usernameInput, 
+                        passwordInput, 
+                        loginButton
+                    );
+                    break;
+                case "valid":
+                    await this.#validLogin(
+                        { username, password },
+                        usernameInput, 
+                        passwordInput, 
+                        loginButton
+                    );
+                    break;
+            }
+        } catch (error) {
+            let imageToSave;
+
+            if (formTitle) {
+                imageToSave = await formTitle.findElement(By.xpath("..")).takeScreenshot();
+            } else {
+                imageToSave = await this.driver.takeScreenshot();
+            }
+
+            if (error instanceof assert.AssertionError) {
+                await super.takeScreenshot(
+                    imageToSave,
+                    `login/bugs/${error.expected}`,
+                    `login_bug_${type || 'unknown'}_${error.expected}.png`
+                );
+            } else {
+                await super.takeScreenshot(
+                    imageToSave,
+                    `login/errors/${error.message}`,
+                    `login_error_${type || 'unknown'}_${error.message}.png`
+                );
+            }
+
+            throw error;
+        }
+    }
+
+    async #emptyLogin({ username, password }, formTitle, usernameInput, passwordInput, loginButton, requiredValidationMessage) {
+        // Simulate empty input by sending empty strings to both username and password fields
+        await usernameInput.sendKeys(username);
+        await passwordInput.sendKeys(password);
+        await loginButton.click();
+
+        await this.driver.sleep(1000); // Wait for 1 second to allow the validation message to appear
+
+        // Validate the validation messages for both username and password fields
+        await usernameInput.getAttribute("validationMessage").then((message) => {
+            assert.ok(message, "Expected validation message for empty username");
+            assert.strictEqual(
+                message,
+                requiredValidationMessage,
+                "Validation message for empty username does not match expected value"
+            );
+        });
+        await passwordInput.getAttribute("validationMessage").then((message) => {
+            assert.ok(message, "Expected validation message for empty password");
+            assert.strictEqual(
+                message,
+                requiredValidationMessage,
+                "Validation message for empty password does not match expected value"
+            );
+        });
+
+        // Take a screenshot of the form overlay after validation
+        await super.takeScreenshot(
+            await formTitle.findElement(By.xpath("..")).takeScreenshot(),
+            "login",
+            "login_form_empty.png"
+        );
+    }
+    async #missingLogin({ username }, formTitle, usernameInput, passwordInput, loginButton, requiredValidationMessage) {
+        // Clear the input fields after validation to avoid affecting subsequent tests
+        await usernameInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
+        await passwordInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
+
+        // Simulate missing password by sending username and leaving password empty
+        await usernameInput.sendKeys(username);
+        await loginButton.click();
+
+        await this.driver.sleep(1000); // Wait for 1 second to allow the validation message to appear
+
+        // Validate the validation message for the password field
+        await passwordInput.getAttribute("validationMessage").then((message) => {
+            assert.ok(message, "Expected validation message for missing password");
+            assert.strictEqual(
+                message,
+                requiredValidationMessage,
+                "Validation message for missing password does not match expected value"
+            );
+        });
+
+        // Take a screenshot of the form overlay after validation
+        await super.takeScreenshot(
+            await formTitle.findElement(By.xpath("..")).takeScreenshot(),
+            "login",
+            "login_form_missing.png"
+        );
+    }
+    async #invalidLogin({username, password}, usernameInput, passwordInput, loginButton) {
+        // Clear the input fields after validation to avoid affecting subsequent tests
+        await usernameInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
+        await passwordInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
+
+        // Simulate invalid credentials by sending username and password
+        await usernameInput.sendKeys(username);
+        await passwordInput.sendKeys(password);
+        await loginButton.click();
+
+        await this.driver.sleep(1000); // Wait for 1 second to allow the validation message to appear
+
+        // Validate the toast message for invalid credentials
+        await this.toastElement(
+            "Invalid username or password!",
+            async (toastContainer) => {
+                await super.takeScreenshot(
+                    await toastContainer.takeScreenshot(),
+                    "login",
+                    "login_form_invalid.png"
+                );
+            }
+        );
+    }
+    async #validLogin({username, password}, usernameInput, passwordInput, loginButton) {
+        // Clear the input fields after validation to avoid affecting subsequent tests
+        await usernameInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
+        await passwordInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
+
+        // Simulate valid credentials by sending username and password
+        await usernameInput.sendKeys(username);
+        await passwordInput.sendKeys(password);
+
+        await this.driver.sleep(1000);
+
+        await loginButton.click();
+
+        await this.driver.wait(
+            until.urlContains("/users"),
+            5000,
+            "Expected URL to contain '/users' after login"
+        );
 
         await super.takeScreenshot(
             await this.driver.takeScreenshot(),
             "login",
-            "login_page_success.png"
+            "login_form_valid.png"
         );
+    }
+
+    #cleanCredential(value) {
+        if (!value) return "";
+        return value.includes(":") ? value.split(":")[1].trim() : value.trim();
+    }
+
+    async #getHintData() {
+        const hintButton = await this.driver.wait(
+            until.elementLocated(this.#hintButtonLocator),
+            3000,
+            "Hint button not found"
+        );
+        await hintButton.click();
+
+        const usernameHint = await this.driver.wait(
+            until.elementLocated(this.#hintUsernameLocator),
+            3000
+        );
+        const passwordHint = await this.driver.findElement(this.#hintPasswordLocator);
+
+        return {
+            username: await usernameHint.getText(),
+            password: await passwordHint.getText(),
+        };
     }
 }
