@@ -61,7 +61,6 @@ export class LoginPage extends BasePage {
         let formTitle;
 
         try {
-            // 1. Tunggu overlay muncul (Cukup 1 wait terpadu)
             const formOverlay = await this.driver.wait(
                 until.elementLocated(this.#formOverlayLocator),
                 3000,
@@ -73,17 +72,15 @@ export class LoginPage extends BasePage {
                 "Expected login form overlay to be visible"
             );
 
-            // 2. Validasi Judul Form
             formTitle = await this.driver.findElement(this.#formTitleLocator);
             
-            // const expectedFormTitleText = "Sign in";
-            const expectedBypassFormTitleText = "Sing in"; // I know this is a typo, but I will bypass it for now to avoid test failure. I will fix it later in the application code.
+            // Typo: "Sing in" expected but got "Sign in"
+            const expectedFormTitleText = "Sing in";
 
             const formTitleText = await formTitle.getText();
             assert.strictEqual(
                 formTitleText,
-                // expectedFormTitleText,
-                expectedBypassFormTitleText,
+                expectedFormTitleText,
                 "Form title does not match expected value"
             );
 
@@ -127,7 +124,6 @@ export class LoginPage extends BasePage {
 
             const usernameInput = await this.driver.findElement(this.#usernameInputLocator);
             const passwordInput = await this.driver.findElement(this.#passwordInputLocator);
-            const loginButton = await this.driver.findElement(this.#loginButtonLocator);
 
             const requiredValidationMessage = "Please fill out this field.";
             switch (type) {
@@ -137,7 +133,6 @@ export class LoginPage extends BasePage {
                         formTitle,
                         usernameInput, 
                         passwordInput, 
-                        loginButton,
                         requiredValidationMessage
                     );
                     break;
@@ -147,7 +142,6 @@ export class LoginPage extends BasePage {
                         formTitle,
                         usernameInput, 
                         passwordInput, 
-                        loginButton,
                         requiredValidationMessage
                     )
                     break;
@@ -156,7 +150,6 @@ export class LoginPage extends BasePage {
                         { username, password },
                         usernameInput, 
                         passwordInput, 
-                        loginButton
                     );
                     break;
                 case "valid":
@@ -164,7 +157,6 @@ export class LoginPage extends BasePage {
                         { username, password },
                         usernameInput, 
                         passwordInput, 
-                        loginButton
                     );
                     break;
             }
@@ -195,13 +187,20 @@ export class LoginPage extends BasePage {
         }
     }
 
-    async #emptyLogin({ username, password }, formTitle, usernameInput, passwordInput, loginButton, requiredValidationMessage) {
+    async goToUsersPage() {
+        const loginButton = await this.driver.findElement(this.#loginButtonLocator);
+        
+        await loginButton.click();
+
+        // Wait for 1 second to allow the validation message to appear
+        await this.driver.sleep(1000);
+    }
+
+    async #emptyLogin({ username, password }, formTitle, usernameInput, passwordInput, requiredValidationMessage) {
         // Simulate empty input by sending empty strings to both username and password fields
         await usernameInput.sendKeys(username);
         await passwordInput.sendKeys(password);
-        await loginButton.click();
-
-        await this.driver.sleep(1000); // Wait for 1 second to allow the validation message to appear
+        await this.goToUsersPage();
 
         // Validate the validation messages for both username and password fields
         await usernameInput.getAttribute("validationMessage").then((message) => {
@@ -228,18 +227,13 @@ export class LoginPage extends BasePage {
             "login_form_empty.png"
         );
     }
-    async #missingLogin({ username }, formTitle, usernameInput, passwordInput, loginButton, requiredValidationMessage) {
-        // Clear the input fields after validation to avoid affecting subsequent tests
+    async #missingLogin({ username }, formTitle, usernameInput, passwordInput, requiredValidationMessage) {
         await usernameInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
         await passwordInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
 
-        // Simulate missing password by sending username and leaving password empty
         await usernameInput.sendKeys(username);
-        await loginButton.click();
+        await this.goToUsersPage();
 
-        await this.driver.sleep(1000); // Wait for 1 second to allow the validation message to appear
-
-        // Validate the validation message for the password field
         await passwordInput.getAttribute("validationMessage").then((message) => {
             assert.ok(message, "Expected validation message for missing password");
             assert.strictEqual(
@@ -249,26 +243,20 @@ export class LoginPage extends BasePage {
             );
         });
 
-        // Take a screenshot of the form overlay after validation
         await super.takeScreenshot(
             await formTitle.findElement(By.xpath("..")).takeScreenshot(),
             "login",
             "login_form_missing.png"
         );
     }
-    async #invalidLogin({username, password}, usernameInput, passwordInput, loginButton) {
-        // Clear the input fields after validation to avoid affecting subsequent tests
+    async #invalidLogin({username, password}, usernameInput, passwordInput, ) {
         await usernameInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
         await passwordInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
 
-        // Simulate invalid credentials by sending username and password
         await usernameInput.sendKeys(username);
         await passwordInput.sendKeys(password);
-        await loginButton.click();
+        await this.goToUsersPage();
 
-        await this.driver.sleep(1000); // Wait for 1 second to allow the validation message to appear
-
-        // Validate the toast message for invalid credentials
         await this.toastElement(
             "Invalid username or password!",
             async (toastContainer) => {
@@ -280,30 +268,12 @@ export class LoginPage extends BasePage {
             }
         );
     }
-    async #validLogin({username, password}, usernameInput, passwordInput, loginButton) {
-        // Clear the input fields after validation to avoid affecting subsequent tests
+    async #validLogin({username, password}, usernameInput, passwordInput, ) {
         await usernameInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
         await passwordInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
 
-        // Simulate valid credentials by sending username and password
         await usernameInput.sendKeys(username);
         await passwordInput.sendKeys(password);
-
-        await this.driver.sleep(1000);
-
-        await loginButton.click();
-
-        await this.driver.wait(
-            until.urlContains("/users"),
-            5000,
-            "Expected URL to contain '/users' after login"
-        );
-
-        await super.takeScreenshot(
-            await this.driver.takeScreenshot(),
-            "login",
-            "login_form_valid.png"
-        );
     }
 
     #cleanCredential(value) {

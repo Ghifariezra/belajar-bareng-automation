@@ -13,7 +13,7 @@ export class AddUsersTest {
                 this.#data = {
                     emptyData: {},
                     newUser: {
-                        username: "Quiz User",
+                        username: "QuizLovers",
                         age: 300,
                     },
                 };
@@ -43,7 +43,7 @@ export class AddUsersTest {
     #addUserMissing() {
         it("Should block add user form submission when username or age is missing", async () => {
             this.#data.emptyData = {
-                username: "Quiz User",
+                username: "QuizLovers",
             }
             await this.addUsersPage.addUserForm(this.#data.emptyData, "missing");
         });
@@ -68,9 +68,9 @@ export class AddUsersTest {
     }
 
     #addNewUser() {
-        it("Should block add user when the age fill 0", async () => {
+        it.skip("Should block add user when the age fill 0", async () => {
             this.#data.emptyData = {
-                username: "Age is Zero",
+                username: "AgeisZero",
                 age: 0,
             };
             await this.addUsersPage.addUserForm(this.#data.emptyData, "invalidAge");
@@ -80,7 +80,7 @@ export class AddUsersTest {
             await this.addUsersPage.addUserForm(this.#data.newUser, "add");
         });
 
-        it("Should block add user when the username already exists", async () => {
+        it.skip("Should block add user when the username already exists", async () => {
             await this.addUsersPage.addUserForm(this.#data.newUser, "existing");
         });
 

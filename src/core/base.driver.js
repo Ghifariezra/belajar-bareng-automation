@@ -3,9 +3,7 @@ import { By, until } from "selenium-webdriver";
 import { BaseScreenshot } from "./base.screenshot.js";
 
 export class BasePage extends BaseScreenshot {
-    // Toast Locator
-    #toastContainerLocator = "//div[@data-testid='Toastify__toast-container--top-right']";
-    #toastAddUserLocator = "//div[@data-testid='toast-content']";
+    #toastContentLocator = By.css("[data-testid='toast-content']");
 
     constructor(driver, folderName) {
         super(folderName);
@@ -13,64 +11,36 @@ export class BasePage extends BaseScreenshot {
     }
 
     async toastElement(expectedText, callbackScreenshot) {
-        // Validate toast message after adding user
-        await this.driver.wait(
-            until.elementLocated(By.xpath(this.#toastContainerLocator)),
-            3000, // Wait for up to 3 seconds for the toast message to appear
-            "Expected toast message to appear after adding user"
+        // 1. wait until the toast message appears
+        const toastContent = await this.driver.wait(
+            until.elementLocated(this.#toastContentLocator),
+            5000,
+            "Expected toast message to appear"
         );
 
+        // 2. wait until the toast message is visible
         await this.driver.wait(
-            until.elementIsVisible(await this.driver.findElement(By.xpath(this.#toastContainerLocator))),
-            3000,
+            until.elementIsVisible(toastContent),
+            5000,
             "Expected toast message to be visible"
         );
 
-        assert.ok(
-            await this.driver.findElement(By.xpath(this.#toastContainerLocator)).isDisplayed(),
-            "Toast message is not displayed after adding user"
-        );
-
-
-        const toastContainer = await this.driver.findElement(
-            By.xpath(this.#toastContainerLocator)
-        );
-
-        await this.driver.wait(
-            until.elementLocated(By.xpath(this.#toastAddUserLocator)),
-            3000, // Wait for up to 3 seconds for the toast message to appear
-            "Expected toast message to appear after adding user"
-        );
-
-        await this.driver.wait(
-            until.elementIsVisible(await this.driver.findElement(By.xpath(this.#toastAddUserLocator))),
-            3000,
-            "Expected toast message to be visible"
-        );
-
-        assert.ok(
-            await this.driver.findElement(By.xpath(this.#toastAddUserLocator)).isDisplayed(),
-            "Toast message is not displayed after adding user"
-        );
-
-        // Validate the text of the toast message
-        // toastAddUserText found BUG -> when user input username like "Quiz User" toastAddUserText return "QuizUser" without space, so I will trim the text and compare it with expected value
-        const toastAddUser = await toastContainer.findElement(
-            By.xpath(this.#toastAddUserLocator)
-        );
-        const toastAddUserText = await toastAddUser.getText();
+        // 3. validate the toast message
+        const actualText = await toastContent.getText();
         assert.strictEqual(
-            toastAddUserText,
+            actualText,
             expectedText,
             "Toast message does not match expected value"
         );
 
+        // 4. get screenshot if callbackScreenshot is provided
         if (callbackScreenshot) {
-            await callbackScreenshot(toastContainer);
+            await callbackScreenshot(toastContent);
         }
 
+        // 5. wait until the toast message disappears
         await this.driver.wait(
-            until.stalenessOf(toastContainer),
+            until.stalenessOf(toastContent),
             5000,
             "Expected toast message to disappear automatically"
         );

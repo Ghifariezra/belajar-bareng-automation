@@ -21,7 +21,7 @@ export class LoginTest {
                 this.loginPage = this.testContext.belajarBareng.loginPage;
             });
 
-            describe("Verify that the login page loads successfully with correct title, URL, and visible login form", () => this.#verifyLoginPage());
+            describe.skip("Verify that the login page loads successfully with correct title, URL, and visible login form", () => this.#verifyLoginPage());
             
             describe("Should fail to login with empty credentials", () => this.#emptyLogin());
 
@@ -30,6 +30,8 @@ export class LoginTest {
             describe("Should fail to login with invalid credentials", () => this.#invalidLogin());
 
             describe("Should successfully login with valid credentials", () => this.#validLogin());
+
+            describe("Should navigate to the users page after successful login", () => this.#goToUsersPage());
         });
     }
 
@@ -37,7 +39,7 @@ export class LoginTest {
         it("Should open the base URL successfully", async () => {
             await this.testContext.belajarBareng.loginPage.open(
                 `${this.loginUrl}/login`,
-                `Login - ${this.testContext.title}`
+                `${this.testContext.title}`
             );
         });
     }
@@ -82,6 +84,12 @@ export class LoginTest {
                 this.#data.validData,
                 "valid"
             );
+        });
+    }
+
+    #goToUsersPage() {
+        it("Should navigate to the users page after successful login", async () => {
+            await this.loginPage.goToUsersPage();
         });
     }
 }

@@ -26,6 +26,18 @@ export class AddUsers extends BasePage {
     }
 
     async goToAddUserPage() {
+        await this.driver.wait(
+            until.urlContains("/users"),
+            5000,
+            "Expected URL to contain '/users' after login"
+        );
+
+        await super.takeScreenshot(
+            await this.driver.takeScreenshot(),
+            "login",
+            "login_form_valid.png"
+        );
+
         // Validate path url after login
         const currentUrl = await this.driver.getCurrentUrl();
         assert.ok(
@@ -239,133 +251,67 @@ export class AddUsers extends BasePage {
 
         await usernameInput.sendKeys(username);
         await ageInput.sendKeys(age);
-
         await submitButton.click();
+
         await this.driver.sleep(1000);
 
+        // Ekspektasi pesan validasi
         const expectedToastText = "Age cannot be negative.";
-
-        // I know this BUG
-        this.#expectedToastText = `User successfully added, Hi ${username.split(' ').join('')}!`; 
-        
-        try {
-            await this.toastElement(
-                expectedToastText,
-                async (toastContainer) => {
-                    await super.takeScreenshot(
-                        await toastContainer.takeScreenshot(),
-                        "add_user",
-                        "add_user_invalid_age_validation.png"
-                    );
-                }
-            );
-        } catch (error) {
-            if (error instanceof assert.AssertionError) {
-                await this.toastElement(
-                    this.#expectedToastText,
-                    async (toastContainer) => {
-                        await super.takeScreenshot(
-                            await toastContainer.takeScreenshot(),
-                            "add_user/bugs",
-                            "add_user_invalid_age_validation.png"
-                        );
-                    }
+        await this.toastElement(
+            expectedToastText,
+            async (toastContainer) => {
+                await super.takeScreenshot(
+                    await toastContainer.takeScreenshot(),
+                    "add_user",
+                    "add_user_invalid_age_validation.png"
                 );
             }
-            
-            throw error;
-        }
+        );
     }
-    async #add(
-        { username, age }, usernameInput, ageInput, submitButton
-    ) {
+    async #add({ username, age }, usernameInput, ageInput, submitButton) {
         await usernameInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
         await ageInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
 
         await usernameInput.sendKeys(username);
-        await ageInput.sendKeys(age);
+        await ageInput.sendKeys(String(age));
         await submitButton.click();
 
-        await this.driver.sleep(1000); // Wait for 1 second to allow the toast message to appear
+        await this.driver.sleep(1000);
 
-        try {
-            // Expect Value: `User successfully added, Hi ${username}!`;
+        this.#expectedToastText = `User successfully added, Hi ${username}!`;
 
-            this.#expectedToastText = `User successfully added, Hi ${username}!`;
-            await this.toastElement(
-                this.#expectedToastText,
-                async (toastContainer) => {
-                    await super.takeScreenshot(
-                        await toastContainer.takeScreenshot(),
-                        "add_user",
-                        "add_user_success_validation.png"
-                    );
-                }
-            );
-        } catch (error) {
-            // I know this BUG
-            this.#expectedToastText = `User successfully added, Hi ${username.split(' ').join('')}!`;
-
-            if (error instanceof assert.AssertionError) {
-                await this.toastElement(
-                    this.#expectedToastText,
-                    async (toastContainer) => {
-                        await super.takeScreenshot(
-                            await toastContainer.takeScreenshot(),
-                            "add_user/bugs",
-                            "add_user_success_validation.png"
-                        );
-                    }
+        await this.toastElement(
+            this.#expectedToastText,
+            async (toastContainer) => {
+                await super.takeScreenshot(
+                    await toastContainer.takeScreenshot(),
+                    "add_user",
+                    "add_user_success_validation.png"
                 );
             }
-
-            throw error;
-        }
-
+        );
     }
     async #existing({ username, age }, usernameInput, ageInput, submitButton) {
-        await usernameInput.click();
-        await usernameInput.sendKeys(Key.CONTROL, "a", Key.BACK_SPACE);
+        await usernameInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
+        await ageInput.sendKeys(Key.chord(Key.CONTROL, "a"), Key.DELETE);
+
         await usernameInput.sendKeys(username);
-
-        await ageInput.click();
-        await ageInput.sendKeys(Key.CONTROL, "a", Key.BACK_SPACE);
-        await ageInput.sendKeys(age.toString());
-
+        await ageInput.sendKeys(String(age));
         await submitButton.click();
+
         await this.driver.sleep(1000);
 
         const expectedExistingUserToastText = `User with username ${username} already exists.`;
 
-        // I know this BUG
-        this.#expectedToastText = `User successfully added, Hi ${username.split(' ').join('')}!`;
-
-        try {
-            await this.toastElement(
-                expectedExistingUserToastText,
-                async (toastContainer) => {
-                    await super.takeScreenshot(
-                        await toastContainer.takeScreenshot(),
-                        "add_user",
-                        "add_user_existing_user_validation.png"
-                    );
-                }
-            );
-        } catch (error) {
-            if (error instanceof assert.AssertionError) {
-                await this.toastElement(
-                    this.#expectedToastText,
-                    async (toastContainer) => {
-                        await super.takeScreenshot(
-                            await toastContainer.takeScreenshot(),
-                            "add_user/bugs",
-                            "add_user_existing_user_validation.png"
-                        );
-                    }
+        await this.toastElement(
+            expectedExistingUserToastText,
+            async (toastContainer) => {
+                await super.takeScreenshot(
+                    await toastContainer.takeScreenshot(),
+                    "add_user",
+                    "add_user_existing_user_validation.png"
                 );
             }
-            
-            throw error;
-        }
+        );
     }
 }
