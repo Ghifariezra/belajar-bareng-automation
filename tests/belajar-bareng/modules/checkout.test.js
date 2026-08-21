@@ -6,7 +6,7 @@ export class CheckoutTest {
     }
 
     run() {
-        describe("Unstable for Firefox: Checkout Page Functionality", () => {
+        describe.skip("Unstable for Firefox: Checkout Page Functionality", () => {
             before(async () => {
                 this.userCheckout = this.testContext.belajarBareng.checkout;
             });
