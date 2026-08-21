@@ -5,20 +5,16 @@
     "type": "module",
     "scripts": {
         "test:dummy": "mocha tests/google.test.js --timeout 10000",
-        "test:belajar-bareng": "npx mocha tests/belajar-bareng --timeout 20000",
-        "test:chrome": "cross-env BROWSER=chrome npx mocha tests/belajar-bareng --timeout 20000 --reporter mochawesome --reporter-options reportDir=reports/json,reportFilename=chrome-report,html=false",
-        "test:firefox": "cross-env BROWSER=firefox npx mocha tests/belajar-bareng --timeout 20000 --reporter mochawesome --reporter-options reportDir=reports/json,reportFilename=firefox-report,html=false",
-        "test:edge": "cross-env BROWSER=MicrosoftEdge npx mocha tests/belajar-bareng --timeout 20000 --reporter mochawesome --reporter-options reportDir=reports/json,reportFilename=edge-report,html=false",
-        "report:merge": "npx mochawesome-merge reports/json/*.json > reports/combined-report.json",
-        "report:generate": "npx marge reports/combined-report.json -o reports -f parallel-compatibility-report",
-        "test:parallel": "concurrently --raw \"npm run test:chrome\" \"npm run test:firefox\" \"npm run test:edge\" && npm run report:merge && npm run report:generate"
+        "test:chrome": "mocha tests/belajar-bareng/run-chrome.test.js --timeout 20000",
+        "test:firefox": "mocha tests/belajar-bareng/run-firefox.test.js --timeout 20000",
+        "test:edge": "mocha tests/belajar-bareng/run-edge.test.js --timeout 20000",
+        "pretest:parallel": "npx rimraf reports",
+        "test:parallel": "mocha tests/belajar-bareng/run-*.test.js --parallel --timeout 20000 --reporter mochawesome --require mochawesome/register --reporter-options reportDir=reports,reportFilename=compatibility-report,html=true,json=false"
     },
     "dependencies": {
         "selenium-webdriver": "^4.46.0"
     },
     "devDependencies": {
-        "concurrently": "^10.0.5",
-        "cross-env": "^7.0.3",
         "mocha": "^11.7.6",
         "mocha-simple-html-reporter": "^2.0.0",
         "mochawesome": "^8.0.1",

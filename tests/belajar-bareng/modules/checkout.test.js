@@ -11,15 +11,11 @@ export class CheckoutTest {
                 this.userCheckout = this.testContext.belajarBareng.checkout;
             });
 
-            describe("User should be able to complete checkout", () => this.#checkout());
+            it("User should be able to complete checkout", async () => await this.#checkout());
         });
     }
 
-    #checkout() {
-        const self = this;
-        it("User should be able to checkout", async function () {
-            this.timeout(20000);
-            await self.userCheckout.checkout();
-        });
+    async #checkout() {
+        await this.userCheckout.checkout();
     }
 }

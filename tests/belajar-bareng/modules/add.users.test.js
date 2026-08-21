@@ -20,10 +20,10 @@ export class AddUsersTest {
                 this.addUsersPage = this.testContext.belajarBareng.addUsers;
             });
 
-            describe("Should block add user form submission when username or age is empty", () => this.#addUserEmpty());
-            describe("Should block add user form submission when username or age is missing", () => this.#addUserMissing());
-            describe("Should block add user form submission when username or age is invalid", () => this.#addUserInvalid());
-            describe("User should be able to add a new user", () => this.#addNewUser());
+            this.#addUserEmpty();
+            this.#addUserMissing();
+            this.#addUserInvalid();
+            this.#addNewUser();
         });
     }
 
