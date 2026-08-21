@@ -1,10 +1,10 @@
 import { LoginPage, AddUsers, Checkout } from "./modules/index.js";
 
 export class BelajarBareng {
-    constructor(driver, folderName) {
+    constructor(driver, folderName, browser) {
         this.driver = driver;
-        this.loginPage = new LoginPage(driver, folderName);
-        this.addUsers = new AddUsers(driver, folderName);
-        this.checkout = new Checkout(driver, folderName);
+        this.loginPage = new LoginPage(driver, folderName, browser);
+        this.addUsers = new AddUsers(driver, folderName, browser);
+        this.checkout = new Checkout(driver, folderName, browser);
     }
 }

@@ -21,8 +21,8 @@ export class AddUsers extends BasePage {
     // Shop Page Locator
     #buttonShopLocator = '//button[@data-testid="shop-button"]';
 
-    constructor(driver, folderName) {
-        super(driver, folderName);
+    constructor(driver, folderName, browser) {
+        super(driver, folderName, browser);
     }
 
     async goToAddUserPage() {

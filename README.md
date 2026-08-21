@@ -4,7 +4,7 @@ An end-to-end test suite for the [Belajar Bareng](https://belajar-bareng.onrende
 
 `login -> add user -> shop -> cart -> checkout`
 
-The suite follows a Page Object Model structure and includes negative tests, boundary checks, screenshot capture, and Mochawesome HTML reporting. It was created for the Digital Skola QA Bootcamp, Session 8.
+The suite follows a Page Object Model structure and includes negative tests, boundary checks, browser-specific screenshot capture, and Mochawesome reporting. The same suite can run on Chrome, Firefox, and Microsoft Edge, either individually or in parallel. It was created for the Digital Skola QA Bootcamp, Session 8.
 
 ## Tech Stack
 
@@ -12,7 +12,10 @@ The suite follows a Page Object Model structure and includes negative tests, bou
 - [Selenium WebDriver](https://www.npmjs.com/package/selenium-webdriver) `^4.46.0`
 - [Mocha](https://mochajs.org/) `^11.7.6`
 - [Mochawesome](https://www.npmjs.com/package/mochawesome) `^8.0.1`
-- Google Chrome and Selenium's Chrome driver
+- `cross-env` for browser environment variables
+- `concurrently` for parallel browser execution
+- `mochawesome-merge` and `mochawesome-report-generator` for combined reports
+- Google Chrome, Mozilla Firefox, and Microsoft Edge with their Selenium drivers
 
 ## Project Structure
 
@@ -37,8 +40,12 @@ The suite follows a Page Object Model structure and includes negative tests, bou
 │       │   ├── login.test.js      # Login scenarios
 │       │   ├── add.users.test.js  # Add user scenarios
 │       │   └── checkout.test.js   # Checkout happy path
-│       └── screenshots/            # Generated screenshots
-├── mochawesome-report/            # Generated HTML and JSON reports
+│       └── screenshots/            # Generated screenshots grouped by browser
+├── reports/
+│   ├── json/                       # Per-browser Mochawesome JSON reports
+│   ├── combined-report.json       # Merged report input
+│   └── parallel-compatibility-report.html
+│                                   # Combined compatibility report
 ├── package.json
 └── README.md
 ```
@@ -46,7 +53,8 @@ The suite follows a Page Object Model structure and includes negative tests, bou
 ## Prerequisites
 
 - Node.js supported by Mocha 11: `^18.18.0`, `^20.9.0`, or `>=21.1.0`
-- Google Chrome installed and available to Selenium WebDriver
+- At least one supported browser installed and available to Selenium WebDriver
+- Chrome, Firefox, and Microsoft Edge installed for the parallel compatibility run
 - Internet access to reach the Belajar Bareng and SauceDemo applications
 
 ## Installation
@@ -63,19 +71,34 @@ Run the separate SauceDemo smoke test:
 npm run test:dummy
 ```
 
-Run the Belajar Bareng suite:
+Run the Belajar Bareng suite in the default browser (Chrome):
 
 ```bash
 npm run test:belajar-bareng
 ```
 
-Run the suite and generate a Mochawesome report:
+Run the suite in a specific browser and save its JSON report:
 
 ```bash
-npm run test:belajar-bareng:report
+npm run test:chrome
+npm run test:firefox
+npm run test:edge
 ```
 
-The report is generated in `mochawesome-report/`. Open `mochawesome-report/mochawesome.html` in a browser to view it.
+Run Chrome, Firefox, and Microsoft Edge in parallel, then merge and generate the combined report:
+
+```bash
+npm run test:parallel
+```
+
+The parallel workflow writes per-browser JSON files to `reports/json/`, merges them into `reports/combined-report.json`, and generates `reports/parallel-compatibility-report.html`.
+
+To generate a report manually from existing JSON files:
+
+```bash
+npm run report:merge
+npm run report:generate
+```
 
 ## Test Coverage
 
@@ -106,7 +129,7 @@ Implemented in `tests/belajar-bareng/modules/add.users.test.js` and `src/modules
 
 The age-zero and duplicate-username scenarios remain in the test source but are skipped because of application behavior described below.
 
-The current test data uses `QuizLovers` without spaces. The source code and latest report contain no `Quiz Lovers` test value or username-space normalization issue. A dedicated username-with-spaces scenario has not been added, so space handling is not currently covered by the suite.
+The current test data uses `QuizLovers` without spaces. The source code and latest reports contain no `Quiz Lovers` test value or username-space normalization issue. A dedicated username-with-spaces scenario has not been added, so space handling is not currently covered by the suite.
 
 ### Checkout
 
@@ -120,18 +143,19 @@ Implemented in `tests/belajar-bareng/modules/checkout.test.js` and `src/modules/
 - Opens and validates the Terms & Conditions overlay.
 - Submits the order and validates the confirmation details, invoice items, and total.
 
+The checkout scenario is currently marked as unstable in the test suite because `confirmation data may be empty during Firefox execution.`
+
 ## Current Test Status
 
-The latest documented report contains **14 passing**, **3 skipped**, and **0 failing** tests out of 17.
+The latest parallel compatibility reports contain **13 passing**, **4 pending**, and **0 failing** tests per browser, for 17 tests per browser.
 
-| Suite | Passing | Skipped | Failing |
-|---|---:|---:|---:|
-| Login Page Functionality | 6 | 1 | 0 |
-| Add Users Page Functionality | 7 | 2 | 0 |
-| Checkout Page Functionality | 1 | 0 | 0 |
-| **Total** | **14** | **3** | **0** |
+| Browser | Tests | Passing | Pending | Failing |
+|---|---:|---:|---:|---:|
+| Chrome | 17 | 13 | 4 | 0 |
+| Firefox | 17 | 13 | 4 | 0 |
+| Microsoft Edge | 17 | 13 | 4 | 0 |
 
-Skipped tests use Mocha's `it.skip()` so known application issues remain visible in the report without stopping the full suite.
+The pending scenarios in the generated reports are the login page verification, age-zero add-user, duplicate-username, and checkout scenarios. The report status should be treated as a snapshot of the latest parallel run.
 
 ## Known Application Issues
 
@@ -141,10 +165,13 @@ Skipped tests use Mocha's `it.skip()` so known application issues remain visible
 | Add user with age `0` | Clear `Age cannot be negative.` validation | The toast content is garbled or combines multiple messages | Skipped |
 | Duplicate username | Clear duplicate-user message | The toast content is garbled or combines multiple messages | Skipped |
 | Shop route | Lowercase `/shop` | Application uses `/Shop` | Assertion follows current behavior |
+| Checkout confirmation in Firefox | Confirmation data is always populated | Confirmation data may be empty during Firefox execution | Pending / unstable |
 
 ## Implementation Notes
 
 - `BasePage.toastElement()` waits for a toast, validates its text, optionally captures a screenshot, and waits for the toast to disappear.
-- `BaseScreenshot` writes screenshots to `tests/<suite>/screenshots/<folder>/<fileName>` and creates missing directories automatically.
+- `BaseScreenshot` writes screenshots to `tests/<suite>/screenshots/<browser>/<folder>/<fileName>` and creates missing directories automatically.
 - `BelajarBareng` shares one Selenium driver across the Login, Add Users, and Checkout page objects.
-- The main suite creates a Chrome driver in `tests/belajar-bareng/index.test.js` and closes it after the suite finishes.
+- The browser is selected through the `BROWSER` environment variable and defaults to `chrome`.
+- The main suite creates the selected browser driver in `tests/belajar-bareng/index.test.js` and closes it after the suite finishes.
+- Browser-specific screenshots are stored under `tests/belajar-bareng/screenshots/chrome/`, `firefox/`, or `microsoftedge/`.

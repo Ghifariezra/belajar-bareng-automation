@@ -5,8 +5,8 @@ import { BaseScreenshot } from "./base.screenshot.js";
 export class BasePage extends BaseScreenshot {
     #toastContentLocator = By.css("[data-testid='toast-content']");
 
-    constructor(driver, folderName) {
-        super(folderName);
+    constructor(driver, folderName, browser) {
+        super(folderName, browser);
         this.driver = driver;
     }
 

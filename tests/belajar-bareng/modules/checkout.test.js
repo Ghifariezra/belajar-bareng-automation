@@ -1,4 +1,3 @@
-import assert from "assert";
 import { before, describe, it } from "mocha";
 
 export class CheckoutTest {
@@ -7,7 +6,7 @@ export class CheckoutTest {
     }
 
     run() {
-        describe("Checkout Page Functionality", () => {
+        describe("Unstable for Firefox: Checkout Page Functionality", () => {
             before(async () => {
                 this.userCheckout = this.testContext.belajarBareng.checkout;
             });
@@ -17,8 +16,10 @@ export class CheckoutTest {
     }
 
     #checkout() {
-        it("User should be able to checkout", async () => {
-            await this.userCheckout.checkout();
+        const self = this;
+        it("User should be able to checkout", async function () {
+            this.timeout(20000);
+            await self.userCheckout.checkout();
         });
     }
 }

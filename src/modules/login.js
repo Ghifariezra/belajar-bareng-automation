@@ -15,8 +15,8 @@ export class LoginPage extends BasePage {
     #passwordInputLocator = By.css("input[data-testid='password-input']");
     #loginButtonLocator = By.css("button[data-testid='login-button']");
 
-    constructor(driver, folderName) {
-        super(driver, folderName);
+    constructor(driver, folderName, browser) {
+        super(driver, folderName, browser);
     }
 
     async open(url, title) {

@@ -1,0 +1,780 @@
+{
+  "stats": {
+    "suites": 15,
+    "tests": 17,
+    "passes": 13,
+    "pending": 4,
+    "failures": 0,
+    "start": "2026-08-21T13:58:34.006Z",
+    "end": "2026-08-21T13:59:27.070Z",
+    "duration": 53064,
+    "testsRegistered": 17,
+    "passPercent": 100,
+    "pendingPercent": 23.52941176470588,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "c45be265-9e67-4a12-9626-2c4a1ad1eba8",
+      "title": "",
+      "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+      "file": "\\tests\\belajar-bareng\\index.test.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b86a57eb-429f-42c7-aa33-34d0e5a5b6b0",
+          "title": "Belajar Bareng Automation - [MICROSOFTEDGE]",
+          "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+          "file": "\\tests\\belajar-bareng\\index.test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"Belajar Bareng Automation - [MICROSOFTEDGE]\"",
+              "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] \"before all\" hook in \"Belajar Bareng Automation - [MICROSOFTEDGE]\"",
+              "timedOut": false,
+              "duration": 2423,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "testContext.title = \"User Management\";\ntestContext.baseUrl = \"https://belajar-bareng.onrender.com\";\ntestContext.driver = await new Builder().forBrowser(BROWSER).build();\ntestContext.belajarBareng = new BelajarBareng(testContext.driver, \"belajar-bareng\", BROWSER);",
+              "err": {},
+              "uuid": "bfe0bdd6-1f40-4032-8b39-2d68304d08f4",
+              "parentUUID": "b86a57eb-429f-42c7-aa33-34d0e5a5b6b0",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Belajar Bareng Automation - [MICROSOFTEDGE]\"",
+              "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] \"after all\" hook in \"Belajar Bareng Automation - [MICROSOFTEDGE]\"",
+              "timedOut": false,
+              "duration": 305,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if (testContext.belajarBareng && testContext.belajarBareng.driver) {\n    await testContext.belajarBareng.driver.quit();\n}",
+              "err": {},
+              "uuid": "f0e2e5be-624c-4615-9036-87f714abfeae",
+              "parentUUID": "b86a57eb-429f-42c7-aa33-34d0e5a5b6b0",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "235051cd-6540-4d91-8a72-15895de3f8c3",
+              "title": "Login Page Functionality",
+              "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+              "file": "\\tests\\belajar-bareng\\index.test.js",
+              "beforeHooks": [
+                {
+                  "title": "\"before all\" hook in \"Login Page Functionality\"",
+                  "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Login Page Functionality \"before all\" hook in \"Login Page Functionality\"",
+                  "timedOut": false,
+                  "duration": 0,
+                  "state": null,
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "this.#data = {\n    emptyData: {},\n    validData: {\n        username: \"admin\",\n        password: \"admin\",\n    },\n}\nthis.loginUrl = `${this.testContext.baseUrl}`;\nthis.loginPage = this.testContext.belajarBareng.loginPage;",
+                  "err": {},
+                  "uuid": "3f2501b2-65e4-4681-9470-f00e4fd99b4d",
+                  "parentUUID": "235051cd-6540-4d91-8a72-15895de3f8c3",
+                  "isHook": true,
+                  "skipped": false
+                }
+              ],
+              "afterHooks": [],
+              "tests": [],
+              "suites": [
+                {
+                  "uuid": "5233525c-fa90-4987-86c3-13c79cd13a3e",
+                  "title": "Verify that the login page loads successfully with correct title, URL, and visible login form",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should open the base URL successfully",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Login Page Functionality Verify that the login page loads successfully with correct title, URL, and visible login form Should open the base URL successfully",
+                      "timedOut": false,
+                      "duration": 0,
+                      "state": "pending",
+                      "speed": null,
+                      "pass": false,
+                      "fail": false,
+                      "pending": true,
+                      "context": null,
+                      "code": "",
+                      "err": {},
+                      "uuid": "147cdf53-7921-4629-a10c-634f961d9c35",
+                      "parentUUID": "5233525c-fa90-4987-86c3-13c79cd13a3e",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [],
+                  "failures": [],
+                  "pending": [
+                    "147cdf53-7921-4629-a10c-634f961d9c35"
+                  ],
+                  "skipped": [],
+                  "duration": 0,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                },
+                {
+                  "uuid": "7cb1546e-96f5-4a09-85a1-b355a9f9185e",
+                  "title": "Should fail to login with empty credentials",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should open the base URL successfully",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Login Page Functionality Should fail to login with empty credentials Should open the base URL successfully",
+                      "timedOut": false,
+                      "duration": 12802,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.testContext.belajarBareng.loginPage.open(\n    `${this.loginUrl}/`,\n    `${this.testContext.title}`\n);",
+                      "err": {},
+                      "uuid": "9a238115-e294-46c0-a07c-cfa47112a88f",
+                      "parentUUID": "7cb1546e-96f5-4a09-85a1-b355a9f9185e",
+                      "isHook": false,
+                      "skipped": false
+                    },
+                    {
+                      "title": "Should fail to login with empty credentials",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Login Page Functionality Should fail to login with empty credentials Should fail to login with empty credentials",
+                      "timedOut": false,
+                      "duration": 5631,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.loginPage.loginForm(\n    this.#data.emptyData,\n    \"empty\"\n);",
+                      "err": {},
+                      "uuid": "c50b23f4-c2cf-4aad-88da-dc7c2f1cc9c8",
+                      "parentUUID": "7cb1546e-96f5-4a09-85a1-b355a9f9185e",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "9a238115-e294-46c0-a07c-cfa47112a88f",
+                    "c50b23f4-c2cf-4aad-88da-dc7c2f1cc9c8"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 18433,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                },
+                {
+                  "uuid": "bc93aae3-9bb9-4a9e-b2af-24312dc24208",
+                  "title": "Should fail to login with missing credentials",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should fail to login with missing credentials",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Login Page Functionality Should fail to login with missing credentials Should fail to login with missing credentials",
+                      "timedOut": false,
+                      "duration": 7334,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.loginPage.loginForm(\n    this.#data.emptyData,\n    \"missing\"\n);",
+                      "err": {},
+                      "uuid": "d5f06065-9246-421e-b230-261a737c113e",
+                      "parentUUID": "bc93aae3-9bb9-4a9e-b2af-24312dc24208",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "d5f06065-9246-421e-b230-261a737c113e"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 7334,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                },
+                {
+                  "uuid": "9f0f112a-ac63-4410-b6e8-92dee0a50ce1",
+                  "title": "Should fail to login with invalid credentials",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should fail to login with invalid credentials",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Login Page Functionality Should fail to login with invalid credentials Should fail to login with invalid credentials",
+                      "timedOut": false,
+                      "duration": 7134,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.loginPage.loginForm(\n    this.#data.emptyData,\n    \"invalid\"\n);",
+                      "err": {},
+                      "uuid": "e73e6609-4747-47cf-aaf5-4c795549339e",
+                      "parentUUID": "9f0f112a-ac63-4410-b6e8-92dee0a50ce1",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "e73e6609-4747-47cf-aaf5-4c795549339e"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 7134,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                },
+                {
+                  "uuid": "e2553f8b-4c4f-403f-adee-c1a70aae8c47",
+                  "title": "Should successfully login with valid credentials",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should login successfully",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Login Page Functionality Should successfully login with valid credentials Should login successfully",
+                      "timedOut": false,
+                      "duration": 666,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.loginPage.loginForm(\n    this.#data.validData,\n    \"valid\"\n);",
+                      "err": {},
+                      "uuid": "9b2a16a2-105e-4a81-90ee-8788ec1cffb5",
+                      "parentUUID": "e2553f8b-4c4f-403f-adee-c1a70aae8c47",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "9b2a16a2-105e-4a81-90ee-8788ec1cffb5"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 666,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                },
+                {
+                  "uuid": "52a2dcb7-be9d-4de9-82e7-ae37c11718b5",
+                  "title": "Should navigate to the users page after successful login",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should navigate to the users page after successful login",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Login Page Functionality Should navigate to the users page after successful login Should navigate to the users page after successful login",
+                      "timedOut": false,
+                      "duration": 1114,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.loginPage.goToUsersPage();",
+                      "err": {},
+                      "uuid": "6a70b98c-01bb-45bd-9fbf-5b62e558f1ac",
+                      "parentUUID": "52a2dcb7-be9d-4de9-82e7-ae37c11718b5",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "6a70b98c-01bb-45bd-9fbf-5b62e558f1ac"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 1114,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                }
+              ],
+              "passes": [],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 20000
+            },
+            {
+              "uuid": "c63f1114-0eed-4049-8458-62eda8b4a683",
+              "title": "Add Users Page Functionality",
+              "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+              "file": "\\tests\\belajar-bareng\\index.test.js",
+              "beforeHooks": [
+                {
+                  "title": "\"before all\" hook in \"Add Users Page Functionality\"",
+                  "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality \"before all\" hook in \"Add Users Page Functionality\"",
+                  "timedOut": false,
+                  "duration": 1,
+                  "state": null,
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "this.#data = {\n    emptyData: {},\n    newUser: {\n        username: \"QuizLovers\",\n        age: 300,\n    },\n};\nthis.addUsersPage = this.testContext.belajarBareng.addUsers;",
+                  "err": {},
+                  "uuid": "9b2a80fa-90e3-4654-a62a-c6466fc77db7",
+                  "parentUUID": "c63f1114-0eed-4049-8458-62eda8b4a683",
+                  "isHook": true,
+                  "skipped": false
+                }
+              ],
+              "afterHooks": [],
+              "tests": [],
+              "suites": [
+                {
+                  "uuid": "73319fd9-b534-4ce5-8e0f-5eca859d218b",
+                  "title": "Should block add user form submission when username or age is empty",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should go to the users page",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality Should block add user form submission when username or age is empty Should go to the users page",
+                      "timedOut": false,
+                      "duration": 627,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.addUsersPage.goToAddUserPage();",
+                      "err": {},
+                      "uuid": "32a906cf-df24-4bfe-aeb0-227c83ca80a9",
+                      "parentUUID": "73319fd9-b534-4ce5-8e0f-5eca859d218b",
+                      "isHook": false,
+                      "skipped": false
+                    },
+                    {
+                      "title": "Should block add user form submission when username is empty",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality Should block add user form submission when username or age is empty Should block add user form submission when username is empty",
+                      "timedOut": false,
+                      "duration": 2273,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.addUsersPage.addUserForm(\n    this.#data.emptyData,\n    \"empty\"\n);",
+                      "err": {},
+                      "uuid": "522705eb-6a1d-498e-ac02-2660c91ccfee",
+                      "parentUUID": "73319fd9-b534-4ce5-8e0f-5eca859d218b",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "32a906cf-df24-4bfe-aeb0-227c83ca80a9",
+                    "522705eb-6a1d-498e-ac02-2660c91ccfee"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 2900,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                },
+                {
+                  "uuid": "71c9d82f-6f39-4da6-b66c-fafa3bcf8841",
+                  "title": "Should block add user form submission when username or age is missing",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should block add user form submission when username or age is missing",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality Should block add user form submission when username or age is missing Should block add user form submission when username or age is missing",
+                      "timedOut": false,
+                      "duration": 1951,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "this.#data.emptyData = {\n    username: \"QuizLovers\",\n}\nawait this.addUsersPage.addUserForm(this.#data.emptyData, \"missing\");",
+                      "err": {},
+                      "uuid": "8dd07341-d49e-4b5c-8321-51f8251c289b",
+                      "parentUUID": "71c9d82f-6f39-4da6-b66c-fafa3bcf8841",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "8dd07341-d49e-4b5c-8321-51f8251c289b"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 1951,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                },
+                {
+                  "uuid": "b45f0316-6895-4aff-bdf0-f014c5c1cfb8",
+                  "title": "Should block add user form submission when username or age is invalid",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should block add user form submission when username or age is invalid",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality Should block add user form submission when username or age is invalid Should block add user form submission when username or age is invalid",
+                      "timedOut": false,
+                      "duration": 2912,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "this.#data.emptyData = {\n    username: 123,\n    age: \"300\",\n};\nawait this.addUsersPage.addUserForm(this.#data.emptyData, \"invalid\");",
+                      "err": {},
+                      "uuid": "7b574956-772c-4321-aac2-628078225e8c",
+                      "parentUUID": "b45f0316-6895-4aff-bdf0-f014c5c1cfb8",
+                      "isHook": false,
+                      "skipped": false
+                    },
+                    {
+                      "title": "Characters in the username input should not longer be than 10 characters",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality Should block add user form submission when username or age is invalid Characters in the username input should not longer be than 10 characters",
+                      "timedOut": false,
+                      "duration": 589,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "this.#data.emptyData = {\n    username: \"axaxaxaxaxaxa\",\n    age: \"300\",\n};\nawait this.addUsersPage.addUserForm(this.#data.emptyData, \"invalid\");",
+                      "err": {},
+                      "uuid": "1728503a-be64-4727-9d24-4e8f86ac2607",
+                      "parentUUID": "b45f0316-6895-4aff-bdf0-f014c5c1cfb8",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "7b574956-772c-4321-aac2-628078225e8c",
+                    "1728503a-be64-4727-9d24-4e8f86ac2607"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 3501,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                },
+                {
+                  "uuid": "58e06948-ecd8-4bea-b70f-7485a2389ced",
+                  "title": "User should be able to add a new user",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "Should block add user when the age fill 0",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality User should be able to add a new user Should block add user when the age fill 0",
+                      "timedOut": false,
+                      "duration": 0,
+                      "state": "pending",
+                      "speed": null,
+                      "pass": false,
+                      "fail": false,
+                      "pending": true,
+                      "context": null,
+                      "code": "",
+                      "err": {},
+                      "uuid": "6765a427-4bea-46a2-b1c1-0c1f0a553528",
+                      "parentUUID": "58e06948-ecd8-4bea-b70f-7485a2389ced",
+                      "isHook": false,
+                      "skipped": false
+                    },
+                    {
+                      "title": "Should add a new user successfully",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality User should be able to add a new user Should add a new user successfully",
+                      "timedOut": false,
+                      "duration": 6827,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.addUsersPage.addUserForm(this.#data.newUser, \"add\");",
+                      "err": {},
+                      "uuid": "074857f7-cc88-4e01-bf9d-2dcc381f9e81",
+                      "parentUUID": "58e06948-ecd8-4bea-b70f-7485a2389ced",
+                      "isHook": false,
+                      "skipped": false
+                    },
+                    {
+                      "title": "Should block add user when the username already exists",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality User should be able to add a new user Should block add user when the username already exists",
+                      "timedOut": false,
+                      "duration": 0,
+                      "state": "pending",
+                      "speed": null,
+                      "pass": false,
+                      "fail": false,
+                      "pending": true,
+                      "context": null,
+                      "code": "",
+                      "err": {},
+                      "uuid": "56bb00df-e55c-41ef-afd3-950395c3e14a",
+                      "parentUUID": "58e06948-ecd8-4bea-b70f-7485a2389ced",
+                      "isHook": false,
+                      "skipped": false
+                    },
+                    {
+                      "title": "Should go to the shop page",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Add Users Page Functionality User should be able to add a new user Should go to the shop page",
+                      "timedOut": false,
+                      "duration": 245,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "await this.addUsersPage.goToShopPage();",
+                      "err": {},
+                      "uuid": "2d59a125-c456-4af6-8025-ff3a5699be11",
+                      "parentUUID": "58e06948-ecd8-4bea-b70f-7485a2389ced",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "074857f7-cc88-4e01-bf9d-2dcc381f9e81",
+                    "2d59a125-c456-4af6-8025-ff3a5699be11"
+                  ],
+                  "failures": [],
+                  "pending": [
+                    "6765a427-4bea-46a2-b1c1-0c1f0a553528",
+                    "56bb00df-e55c-41ef-afd3-950395c3e14a"
+                  ],
+                  "skipped": [],
+                  "duration": 7072,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                }
+              ],
+              "passes": [],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 20000
+            },
+            {
+              "uuid": "360fd362-2439-4b01-977d-97434987409c",
+              "title": "Checkout Page Functionality",
+              "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+              "file": "\\tests\\belajar-bareng\\index.test.js",
+              "beforeHooks": [
+                {
+                  "title": "\"before all\" hook in \"Checkout Page Functionality\"",
+                  "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Checkout Page Functionality \"before all\" hook in \"Checkout Page Functionality\"",
+                  "timedOut": false,
+                  "duration": 0,
+                  "state": null,
+                  "speed": null,
+                  "pass": false,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "this.userCheckout = this.testContext.belajarBareng.checkout;",
+                  "err": {},
+                  "uuid": "b6fd7c44-2290-4615-8aae-e9771b775f6a",
+                  "parentUUID": "360fd362-2439-4b01-977d-97434987409c",
+                  "isHook": true,
+                  "skipped": false
+                }
+              ],
+              "afterHooks": [],
+              "tests": [],
+              "suites": [
+                {
+                  "uuid": "3c056173-6ec3-4079-90d9-bf6563677b41",
+                  "title": "Unstable for Firefox: User should be able to complete checkout",
+                  "fullFile": "D:\\Course Learn\\Digital Skola\\QA\\sesi8\\tests\\belajar-bareng\\index.test.js",
+                  "file": "\\tests\\belajar-bareng\\index.test.js",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "title": "User should be able to checkout",
+                      "fullTitle": "Belajar Bareng Automation - [MICROSOFTEDGE] Checkout Page Functionality Unstable for Firefox: User should be able to complete checkout User should be able to checkout",
+                      "timedOut": false,
+                      "duration": 0,
+                      "state": "pending",
+                      "speed": null,
+                      "pass": false,
+                      "fail": false,
+                      "pending": true,
+                      "context": null,
+                      "code": "",
+                      "err": {},
+                      "uuid": "75668347-491d-4361-b879-f557bae855f1",
+                      "parentUUID": "3c056173-6ec3-4079-90d9-bf6563677b41",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [],
+                  "failures": [],
+                  "pending": [
+                    "75668347-491d-4361-b879-f557bae855f1"
+                  ],
+                  "skipped": [],
+                  "duration": 0,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 20000
+                }
+              ],
+              "passes": [],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 20000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 20000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 20000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "11.8.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "edge-report",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "8.0.1"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "reports/json",
+        "reportFilename": "edge-report",
+        "html": "false"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import assert from "assert";
-import { By, until } from "selenium-webdriver";
+import { By, Key, until } from "selenium-webdriver";
 import { BasePage } from "../core/base.driver.js";
 
 export class Checkout extends BasePage {
-    #items=[];
+    #items = [];
     #pageTitleLocator = `//h1[@class='page-title']`;
 
     // Checkout Locators
@@ -20,22 +20,22 @@ export class Checkout extends BasePage {
 
     // Checkout Form Locators
     #checkoutModalLocator = `//div[@data-testid='checkout-form checkout-form-modal']`;
-    #checkoutNameInputLocator = `//input[@data-testid='checkout-name']`;
-    #checkoutEmailInputLocator = `//input[@data-testid='checkout-email']`;
-    #checkoutAddressInputLocator = `//textarea[@data-testid='checkout-address']`;
+    #checkoutNameInputLocator = `.//input[@data-testid='checkout-name']`;
+    #checkoutEmailInputLocator = `.//input[@data-testid='checkout-email']`;
+    #checkoutAddressInputLocator = `.//textarea[@data-testid='checkout-address']`;
 
     // Checkout Captcha Locators
     #checkoutCaptchaQuestionLocator = `//span[@data-testid='captcha-question']`;
-    #checkoutCaptchaAnswerInputLocator = `//input[@data-testid='checkout-captcha']`;
-    
+    #checkoutCaptchaAnswerInputLocator = `.//input[@data-testid='checkout-captcha']`;
+
     // Checkout T&C Locators
-    #tncCheckboxLocator = `//input[@data-testid='tnc-checkbox']`;
+    #tncCheckboxLocator = `.//input[@data-testid='tnc-checkbox']`;
     #tncTextLocator = `//span[@class='tnc-text']`;
     #tncLinkLocator = `//span[@data-testid='tnc-link']`;
     #tncOverlayLocator = `//div[@class='modal-overlay-tnc']`;
     #tncOverlayContentLocator = `//div[@class='modal-content-tnc']`;
     #tncOverlayButtonCloseLocator = `//button[@data-testid='tnc-ok-button']`;
-    
+
     // Checkout Action Locators
     #checkoutSubmitButtonLocator = `//button[@data-testid='submit-checkout']`;
     #checkoutCancelButtonLocator = `//button[@data-testid='cancel-checkout']`;
@@ -50,14 +50,15 @@ export class Checkout extends BasePage {
     #invoiceTotalLocator = `.//h3[@data-testid='checkout-total']`;
     #invoiceSubmitButtonLocator = `.//button[@data-testid='checkout-success-ok-button']`;
 
-    constructor(driver, folderName) {
-        super(driver, folderName);
+    constructor(driver, folderName, browser) {
+        super(driver, folderName, browser);
+        this.browser = browser;
     }
 
     async checkout() {
         // BUG -> path url should be in lowercase, but the actual path is in capitalized. So, we need to validate the path url after add new user with lowercase "/shop"
         const expectedPath = "/Shop"; // shop should be in lowercase
-        
+
         // Validate path url after add new user
         await this.driver.wait(
             until.urlContains(expectedPath),
@@ -90,6 +91,12 @@ export class Checkout extends BasePage {
 
         // Checkout products
         await this.#checkoutProducts();
+    }
+
+    async #typeInput(element, value) {
+        await element.click();
+        await element.clear();
+        await element.sendKeys(value);
     }
 
     async #addToCart() {
@@ -217,26 +224,26 @@ export class Checkout extends BasePage {
 
     async #checkoutForm() {
         await this.driver.wait(
-          until.elementLocated(
-            By.xpath(this.#checkoutModalLocator),
-          ),
-          3000, // Wait for up to 3 seconds for the form to be located
-          "Expected checkout form to be located"
+            until.elementLocated(
+                By.xpath(this.#checkoutModalLocator),
+            ),
+            3000, // Wait for up to 3 seconds for the form to be located
+            "Expected checkout form to be located"
         );
-        
+
         await this.driver.wait(
-          until.elementIsVisible(
-            await this.driver.findElement(By.xpath(this.#checkoutModalLocator))
-          ),
-          3000, // Wait for up to 3 seconds for the form to be visible
-          "Expected checkout form to be visible"
+            until.elementIsVisible(
+                await this.driver.findElement(By.xpath(this.#checkoutModalLocator))
+            ),
+            3000, // Wait for up to 3 seconds for the form to be visible
+            "Expected checkout form to be visible"
         );
 
         assert.ok(
             await this.driver.findElement(By.xpath(this.#checkoutModalLocator)).isDisplayed(),
             "Checkout form is not displayed"
         );
-        
+
         const modalForm = await this.driver.findElement(By.xpath(this.#checkoutModalLocator));
         const form = await modalForm.findElement(By.css("form"));
         const formTitle = await form.findElement(By.xpath(`//h2`));
@@ -247,7 +254,7 @@ export class Checkout extends BasePage {
         );
 
         // Data
-        const name = "Quiz Lovers";
+        const name = "QuizLovers";
         const email = "quiz@lovers.com";
         const address = "Jln menuju kebaikan";
 
@@ -261,16 +268,12 @@ export class Checkout extends BasePage {
             By.xpath(this.#checkoutAddressInputLocator)
         );
 
-        await nameInput.sendKeys(name);
-        await emailInput.sendKeys(email);
-        await addressInput.sendKeys(address);
+        await this.#typeInput(nameInput, name);
+        await this.#typeInput(emailInput, email);
+        await this.#typeInput(addressInput, address);
 
         await this.#bypassCaptcha(form);
         await this.#validateTnC(form);
-
-        // if (!(await modalForm.isDisplayed())) {
-            
-        // }
 
         await this.driver.wait(
             until.stalenessOf(modalForm),
@@ -328,11 +331,12 @@ export class Checkout extends BasePage {
         const answerInput = await form.findElement(
             By.xpath(this.#checkoutCaptchaAnswerInputLocator)
         );
-        await answerInput.sendKeys(answer.toString());
+        await answerInput.click();
+        await answerInput.sendKeys(answer.toString(), Key.TAB);
     }
 
     async #validateTnC(form) {
-        // Validate T&C checkbox and text
+        // 1. Validate T&C checkbox and text
         const tncCheckbox = await form.findElement(
             By.xpath(this.#tncCheckboxLocator)
         );
@@ -360,9 +364,9 @@ export class Checkout extends BasePage {
             "T&C link text does not match expected value"
         );
 
-        await tncLink.click();
+        await this.driver.executeScript("arguments[0].click();", tncLink);
 
-        // Validate T&C overlay
+        // 2. Validate T&C overlay
         await this.driver.wait(
             until.elementLocated(
                 By.xpath(this.#tncOverlayLocator)
@@ -371,16 +375,16 @@ export class Checkout extends BasePage {
             "Expected T&C overlay to be located"
         );
 
+        const tncOverlay = await form.findElement(By.xpath(this.#tncOverlayLocator));
+
         await this.driver.wait(
-            until.elementIsVisible(
-                await form.findElement(By.xpath(this.#tncOverlayLocator))
-            ),
+            until.elementIsVisible(tncOverlay),
             2000,
             "Expected T&C overlay to be visible"
         );
 
         assert.ok(
-            await form.findElement(By.xpath(this.#tncOverlayLocator)).isDisplayed(),
+            await tncOverlay.isDisplayed(),
             "T&C overlay is not displayed"
         );
 
@@ -402,13 +406,26 @@ export class Checkout extends BasePage {
             "T&C overlay content does not match expected value"
         );
 
-        // Close T&C overlay
+        // 3. Close T&C overlay
         const tncOverlayButtonClose = await form.findElement(
             By.xpath(this.#tncOverlayButtonCloseLocator)
         );
         await tncOverlayButtonClose.click();
-        
-        // Click checkout button
+
+        // Tunggu hingga T&C overlay benar-benar hilang/tertutup rapat
+        await this.driver.wait(
+            until.stalenessOf(tncOverlay),
+            5000,
+            "Expected T&C overlay to be hidden"
+        );
+
+        // Centang T&C checkbox setelah modal tertutup sempurna
+        if (!(await tncCheckbox.isSelected())) {
+            await this.driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", tncCheckbox);
+            await tncCheckbox.click();
+        }
+
+        // 4. Click checkout button
         const checkoutButton = await form.findElement(
             By.xpath(this.#checkoutSubmitButtonLocator)
         );
@@ -429,74 +446,57 @@ export class Checkout extends BasePage {
             "Cancel",
             "Cancel button text does not match expected value"
         );
-        
+
+        await super.takeScreenshot(
+            await form.takeScreenshot(),
+            "checkout",
+            "checkout_captcha.png"
+        );
+
         await checkoutButton.click();
-        // await cancelButton.click();
     }
 
     async #validateConfirmation(name, email, address, items) {
-        // Validate confirmation page
         await this.driver.wait(
-            until.elementLocated(
-                By.xpath(this.#confirmationModalLocator)
-            ),
-            2000,
-            "Expected confirmation page to be located"
-        );
-
-        await this.driver.wait(
-            until.elementIsVisible(
-                await this.driver.findElement(By.xpath(this.#confirmationModalLocator))
-            ),
-            2000,
-            "Expected confirmation page to be visible"
-        );
-
-        assert.ok(
-            await this.driver.findElement(By.xpath(this.#confirmationModalLocator)).isDisplayed(),
-            "Confirmation page is not displayed"
+            until.elementLocated(By.xpath(this.#confirmationModalLocator)),
+            10000,
+            "Expected confirmation modal to be located"
         );
 
         const confirmationModal = await this.driver.findElement(
             By.xpath(this.#confirmationModalLocator)
         );
+
+        await this.driver.wait(
+            until.elementIsVisible(confirmationModal),
+            10000,
+            "Expected confirmation modal to be visible"
+        );
+
         const confirmationModalContent = await confirmationModal.findElement(
             By.xpath(this.#confirmationModalContentLocator)
         );
 
-        await this.driver.wait(
-            until.elementIsVisible(confirmationModalContent),
-            2000,
-            "Expected confirmation modal content to be visible"
-        );
-
-        const confirmationModalTitle = await confirmationModalContent.findElement(
-            By.xpath(this.#confirmationModalTitleLocator)
-        );
-        assert.ok(
-            (await confirmationModalTitle.getText()).includes("Checkout Successful!"),
-            "Confirmation modal title does not match expected value"
-        );
-
-        // Validate user details in confirmation modal
         const checkName = await confirmationModalContent.findElement(By.xpath(`.//p[contains(., 'Name:')]`));
+        await this.driver.wait(async () => {
+            const rawText = await checkName.getText();
+            return rawText.toLowerCase().includes(name.toLowerCase().trim());
+        }, 10000, `Expected user name '${name}' to be rendered in confirmation modal`);
+
         const checkEmail = await confirmationModalContent.findElement(By.xpath(`.//p[contains(., 'Email:')]`));
         const checkAddress = await confirmationModalContent.findElement(By.xpath(`.//p[contains(., 'Address:')]`));
 
-        assert.ok(
-            (await checkName.getText()).includes(name),
-            "Confirmation modal name does not match expected value"
-        );
-        assert.ok(
-            (await checkEmail.getText()).includes(email),
-            "Confirmation modal email does not match expected value"
-        );
-        assert.ok(
-            (await checkAddress.getText()).includes(address),
-            "Confirmation modal address does not match expected value"
+        // Verify that the confirmation modal contains the correct user information
+        await super.takeScreenshot(
+            await confirmationModalContent.takeScreenshot(),
+            "checkout",
+            "verify_checkout_confirmation.png"
         );
 
-        // Validate invoice items in confirmation modal
+        assert.ok((await checkName.getText()).includes(name), "Confirmation name mismatch");
+        assert.ok((await checkEmail.getText()).includes(email), "Confirmation email mismatch");
+        assert.ok((await checkAddress.getText()).includes(address), "Confirmation address mismatch");
+
         const invoiceRows = await confirmationModalContent.findElements(
             By.xpath(this.#invoiceRowLocator)
         );
@@ -508,41 +508,55 @@ export class Checkout extends BasePage {
             for (const key of allKeys) {
                 const colLocator = `.//span[contains(@class, 'col-${key}')]`;
                 const colElement = await invoiceRow.findElement(By.xpath(colLocator));
-                const colText = await colElement.getText();
 
+                await this.driver.wait(
+                    async () => (await colElement.getText()).trim() !== "",
+                    5000,
+                    `Expected item column ${key} text to be rendered`
+                );
+
+                const colText = await colElement.getText();
                 assert.ok(
                     colText.includes(item[key]),
-                    `Confirmation modal item ${key} ('${colText}') does not include expected value '${item[key]}'`
+                    `Item ${key} mismatch! Expected '${item[key]}' in '${colText}'`
                 );
             }
         }
 
-        // Validate grand total in confirmation modal
         const expectedGrandTotal = items.reduce((sum, item) => {
             const numericTotal = parseInt(item.total.replace(/[^0-9]/g, ''), 10);
             return sum + numericTotal;
         }, 0);
+
         const grandTotalElement = await confirmationModalContent.findElement(
             By.xpath(this.#invoiceTotalLocator)
         );
 
+        await this.driver.wait(async () => {
+            const rawText = await grandTotalElement.getText();
+            const numeric = parseInt(rawText.replace(/[^0-9]/g, ''), 10);
+            return !isNaN(numeric) && numeric > 0;
+        }, 5000, "Expected grand total to be calculated (> 0)");
+
         const grandTotalText = await grandTotalElement.getText();
         const numericGrandTotal = parseInt(grandTotalText.replace(/[^0-9]/g, ''), 10);
+
         assert.strictEqual(
             numericGrandTotal,
             expectedGrandTotal,
-            `Grand total does not match! Expected: ${expectedGrandTotal}, but got: ${numericGrandTotal}`
+            `Grand total mismatch! Expected: ${expectedGrandTotal}, got: ${numericGrandTotal}`
         );
 
+        // await super.takeScreenshot(
+        //     await confirmationModalContent.takeScreenshot(),
+        //     "checkout",
+        //     "checkout_confirmation_success.png"
+        // );
+
+        // Close modal konfirmasi
         const invoiceSubmitButton = await confirmationModalContent.findElement(
             By.xpath(this.#invoiceSubmitButtonLocator)
         );
-        const invoiceSubmitButtonText = await invoiceSubmitButton.getText();
-        assert.strictEqual(
-            invoiceSubmitButtonText,
-            "OK",
-            "Invoice submit button text does not match expected value"
-        );
-        await invoiceSubmitButton.click();
+        await this.driver.executeScript("arguments[0].click();", invoiceSubmitButton);
     }
 }

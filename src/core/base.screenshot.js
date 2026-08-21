@@ -4,8 +4,8 @@ import path from "path";
 export class BaseScreenshot {
     #BASE_PATH = "tests";
 
-    constructor(folderName) {
-        this.folderName = `${this.#BASE_PATH}/${folderName}/screenshots`;
+    constructor(folderName, browser) {
+        this.folderName = `${this.#BASE_PATH}/${folderName}/screenshots/${browser.toLowerCase()}`;
     }
 
     async takeScreenshot(buffer, folderName, fileName) {
