@@ -4,7 +4,7 @@ An end-to-end test suite for the [Belajar Bareng](https://belajar-bareng.onrende
 
 `login -> add user -> shop -> cart -> checkout`
 
-The suite follows a Page Object Model structure and includes negative tests, boundary checks, browser-specific screenshot capture, and Mochawesome reporting. The same suite can run on Chrome, Firefox, and Microsoft Edge, either individually or in parallel. It was created for the Digital Skola QA Bootcamp, Session 8.
+The suite follows a Page Object Model structure and includes negative tests, boundary checks, browser-specific screenshot capture, and Mochawesome reporting. The same suite can run on Chrome, Firefox, and Microsoft Edge, either individually or in parallel. Individual browser commands run in headed mode by default, while the parallel command explicitly enables headless mode. It was created for the Digital Skola QA Bootcamp, Session 8.
 
 ## Tech Stack
 
@@ -12,9 +12,9 @@ The suite follows a Page Object Model structure and includes negative tests, bou
 - [Selenium WebDriver](https://www.npmjs.com/package/selenium-webdriver) `^4.46.0`
 - [Mocha](https://mochajs.org/) `^11.7.6`
 - [Mochawesome](https://www.npmjs.com/package/mochawesome) `^8.0.1`
-- `cross-env` for browser environment variables
-- `concurrently` for parallel browser execution
-- `mochawesome-merge` and `mochawesome-report-generator` for combined reports
+- Browser-specific Selenium WebDriver options for Chrome, Firefox, and Microsoft Edge
+- Mocha parallel mode for cross-browser execution
+- Mochawesome for per-browser and combined HTML reports
 - Google Chrome, Mozilla Firefox, and Microsoft Edge with their Selenium drivers
 
 ## Project Structure
@@ -34,7 +34,10 @@ The suite follows a Page Object Model structure and includes negative tests, bou
 ├── tests/
 │   ├── google.test.js             # Separate smoke test for SauceDemo
 │   └── belajar-bareng/
-│       ├── index.test.js          # WebDriver and shared test context setup
+│       ├── index.test.js          # Shared BelajarBarengTest runner
+│       ├── run-chrome.test.js     # Chrome runner; headless when HEADLESS=true
+│       ├── run-firefox.test.js    # Firefox runner; headless when HEADLESS=true
+│       ├── run-edge.test.js       # Edge runner; headless when HEADLESS=true
 │       ├── modules/
 │       │   ├── index.test.js      # Test class barrel export
 │       │   ├── login.test.js      # Login scenarios
@@ -42,10 +45,11 @@ The suite follows a Page Object Model structure and includes negative tests, bou
 │       │   └── checkout.test.js   # Checkout happy path
 │       └── screenshots/            # Generated screenshots grouped by browser
 ├── reports/
-│   ├── json/                       # Per-browser Mochawesome JSON reports
-│   ├── combined-report.json       # Merged report input
-│   └── parallel-compatibility-report.html
-│                                   # Combined compatibility report
+│   ├── chrome-report.html         # Chrome test report
+│   ├── firefox-report.html        # Firefox test report
+│   ├── edge-report.html           # Microsoft Edge test report
+│   ├── compatibility-report.html  # Combined parallel report
+│   └── assets/                     # Mochawesome report assets
 ├── package.json
 └── README.md
 ```
@@ -71,34 +75,34 @@ Run the separate SauceDemo smoke test:
 npm run test:dummy
 ```
 
-Run the Belajar Bareng suite in the default browser (Chrome):
-
-```bash
-npm run test:belajar-bareng
-```
-
-Run the suite in a specific browser and save its JSON report:
+Run the Belajar Bareng suite in headed Chrome by default and generate `reports/chrome-report.html`:
 
 ```bash
 npm run test:chrome
+```
+
+Run the suite in an individual supported browser in headed mode by default:
+
+```bash
 npm run test:firefox
 npm run test:edge
 ```
 
-Run Chrome, Firefox, and Microsoft Edge in parallel, then merge and generate the combined report:
+The individual report files are `reports/chrome-report.html`, `reports/firefox-report.html`, and `reports/edge-report.html`.
+
+To run an individual browser in headless mode, set `HEADLESS=true` before running the command. For example:
+
+```bash
+npx cross-env HEADLESS=true npm run test:chrome
+```
+
+Run Chrome, Firefox, and Microsoft Edge in parallel and generate the compatibility report:
 
 ```bash
 npm run test:parallel
 ```
 
-The parallel workflow writes per-browser JSON files to `reports/json/`, merges them into `reports/combined-report.json`, and generates `reports/parallel-compatibility-report.html`.
-
-To generate a report manually from existing JSON files:
-
-```bash
-npm run report:merge
-npm run report:generate
-```
+The parallel workflow first removes the previous `reports/` directory, sets `HEADLESS=true` through `cross-env`, runs the three browser runner files with Mocha's `--parallel` option, and generates `reports/compatibility-report.html`. The parallel command is configured to generate HTML only. Open that file in a browser to review the cross-browser results.
 
 ## Test Coverage
 
@@ -143,19 +147,13 @@ Implemented in `tests/belajar-bareng/modules/checkout.test.js` and `src/modules/
 - Opens and validates the Terms & Conditions overlay.
 - Submits the order and validates the confirmation details, invoice items, and total.
 
-The checkout scenario is currently marked as unstable in the test suite because `confirmation data may be empty during Firefox execution.`
+The checkout scenario is currently documented as unstable for Firefox because confirmation data may be empty during Firefox execution.
 
 ## Current Test Status
 
-The latest parallel compatibility reports contain **13 passing**, **4 pending**, and **0 failing** tests per browser, for 17 tests per browser.
+The generated compatibility report is the source of truth for the latest cross-browser test status. Because the report is regenerated by `npm run test:parallel`, its result counts may change between runs.
 
-| Browser | Tests | Passing | Pending | Failing |
-|---|---:|---:|---:|---:|
-| Chrome | 17 | 13 | 4 | 0 |
-| Firefox | 17 | 13 | 4 | 0 |
-| Microsoft Edge | 17 | 13 | 4 | 0 |
-
-The pending scenarios in the generated reports are the login page verification, age-zero add-user, duplicate-username, and checkout scenarios. The report status should be treated as a snapshot of the latest parallel run.
+The report includes results for Chrome, Firefox, and Microsoft Edge. Known pending or unstable scenarios are described below.
 
 ## Known Application Issues
 
@@ -172,6 +170,6 @@ The pending scenarios in the generated reports are the login page verification, 
 - `BasePage.toastElement()` waits for a toast, validates its text, optionally captures a screenshot, and waits for the toast to disappear.
 - `BaseScreenshot` writes screenshots to `tests/<suite>/screenshots/<browser>/<folder>/<fileName>` and creates missing directories automatically.
 - `BelajarBareng` shares one Selenium driver across the Login, Add Users, and Checkout page objects.
-- The browser is selected through the `BROWSER` environment variable and defaults to `chrome`.
-- The main suite creates the selected browser driver in `tests/belajar-bareng/index.test.js` and closes it after the suite finishes.
-- Browser-specific screenshots are stored under `tests/belajar-bareng/screenshots/chrome/`, `firefox/`, or `microsoftedge/`.
+- Each browser runner passes its browser name and WebDriver options to `BelajarBarengTest` in `tests/belajar-bareng/index.test.js`.
+- The main runner creates the configured browser driver and closes it after the suite finishes.
+- Browser-specific screenshots are stored under `tests/belajar-bareng/screenshots/chrome/`, `firefox/`, or `microsoftedge/`. The screenshot location is independent of whether the browser runs in headed or headless mode.

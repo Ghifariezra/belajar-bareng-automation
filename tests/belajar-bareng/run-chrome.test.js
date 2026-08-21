@@ -3,9 +3,13 @@ import * as chrome from "selenium-webdriver/chrome.js";
 
 const testContext = {};
 const options = new chrome.Options();
+const isHeadless = process.env.HEADLESS === 'true';
+
+if (isHeadless) {
+    options.addArguments("--headless=new");
+}
 
 // Konfigurasi performa utama
-options.addArguments("--headless=new");
 options.addArguments("--disable-gpu");
 
 // Setup optimasi performa ekstra

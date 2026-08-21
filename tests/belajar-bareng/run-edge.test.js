@@ -3,9 +3,13 @@ import * as edge from "selenium-webdriver/edge.js";
 
 const testContext = {};
 const options = new edge.Options();
+const isHeadless = process.env.HEADLESS === 'true';
+
+if (isHeadless) {
+    options.addArguments("--headless=new");
+}
 
 // Konfigurasi performa utama
-options.addArguments("--headless=new");
 options.addArguments("--disable-gpu");
 
 // Setup optimasi performa ekstra (berbasis Chromium)

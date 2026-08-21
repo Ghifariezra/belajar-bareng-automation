@@ -3,9 +3,11 @@ import * as firefox from "selenium-webdriver/firefox.js";
 
 const testContext = {};
 const options = new firefox.Options();
+const isHeadless = process.env.HEADLESS === 'true';
 
-// Menjalankan tanpa GUI
-options.addArguments("--headless");
+if (isHeadless) {
+    options.addArguments("--headless");
+}
 
 // Optimasi performa melalui Firefox Preferences (about:config)
 options.setPreference("browser.cache.disk.enable", false);
