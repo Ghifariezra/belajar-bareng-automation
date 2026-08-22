@@ -22,26 +22,27 @@ The suite follows a Page Object Model structure and includes negative tests, bou
 ```text
 .
 ├── src/
-│   ├── belajar.bareng.js          # Composes the page objects into BelajarBareng
+│   ├── belajar.bareng.js          # Composes Login, Dashboard, and Checkout pages
 │   ├── core/
 │   │   ├── base.driver.js         # Shared navigation, driver, and toast helpers
 │   │   └── base.screenshot.js     # Shared screenshot file handling
-│   └── modules/
+│   └── pages/
 │       ├── index.js               # Page object barrel export
-│       ├── login.js               # Login page object
-│       ├── add.users.js           # Add user page object
-│       └── checkout.js             # Shop, cart, and checkout page object
+│       ├── login.page.js          # Login page object
+│       ├── dashboard.page.js      # Users and Add Users page object
+│       └── checkout.page.js       # Shop, cart, and checkout page object
 ├── tests/
 │   ├── google.test.js             # Separate smoke test for SauceDemo
 │   └── belajar-bareng/
 │       ├── index.test.js          # Shared BelajarBarengTest runner
-│       ├── run-chrome.test.js     # Chrome runner; headless when HEADLESS=true
-│       ├── run-firefox.test.js    # Firefox runner; headless when HEADLESS=true
-│       ├── run-edge.test.js       # Edge runner; headless when HEADLESS=true
+│       ├── browsers/
+│       │   ├── run-chrome.test.js # Chrome runner; headless when HEADLESS=true
+│       │   ├── run-firefox.test.js# Firefox runner; headless when HEADLESS=true
+│       │   └── run-edge.test.js   # Edge runner; headless when HEADLESS=true
 │       ├── modules/
 │       │   ├── index.test.js      # Test class barrel export
 │       │   ├── login.test.js      # Login scenarios
-│       │   ├── add.users.test.js  # Add user scenarios
+│       │   ├── dashboard.test.js  # Dashboard and Add User scenarios
 │       │   └── checkout.test.js   # Checkout happy path
 │       └── screenshots/            # Generated screenshots grouped by browser
 ├── reports/
@@ -108,7 +109,7 @@ The parallel workflow first removes the previous `reports/` directory, sets `HEA
 
 ### Login
 
-Implemented in `tests/belajar-bareng/modules/login.test.js` and `src/modules/login.js`:
+Implemented in `tests/belajar-bareng/modules/login.test.js` and `src/pages/login.page.js`:
 
 - Opens the application and checks the base URL and page title.
 - Submits empty credentials and checks the browser's required-field validation.
@@ -117,11 +118,11 @@ Implemented in `tests/belajar-bareng/modules/login.test.js` and `src/modules/log
 - Reads the valid credentials from the application's hint button and verifies successful login.
 - Navigates to the users page at `/users`.
 
-The dedicated login page verification is currently skipped because the expected page/form titles do not match the application.
+The login page verification checks the current page title, URL, and form title. Failed tests capture screenshots under the browser-specific `login/bugs/` directory.
 
 ### Add User
 
-Implemented in `tests/belajar-bareng/modules/add.users.test.js` and `src/modules/add.users.js`:
+Implemented in `tests/belajar-bareng/modules/dashboard.test.js` and `src/pages/dashboard.page.js`:
 
 - Opens the Add Users page from the users page.
 - Checks required-field validation for an empty username.
@@ -137,7 +138,7 @@ The current test data uses `QuizLovers` without spaces. The source code and late
 
 ### Checkout
 
-Implemented in `tests/belajar-bareng/modules/checkout.test.js` and `src/modules/checkout.js`:
+Implemented in `tests/belajar-bareng/modules/checkout.test.js` and `src/pages/checkout.page.js`:
 
 - Verifies the Shop page at `/Shop`.
 - Adds the `Tuyul` and `Iphone 17` products to the cart.
@@ -147,7 +148,7 @@ Implemented in `tests/belajar-bareng/modules/checkout.test.js` and `src/modules/
 - Opens and validates the Terms & Conditions overlay.
 - Submits the order and validates the confirmation details, invoice items, and total.
 
-The checkout scenario is currently documented as unstable for Firefox because confirmation data may be empty during Firefox execution.
+The checkout suite is currently skipped for all browsers because the checkout flow is unstable and confirmation data may be empty during execution. The test remains available for future stabilization.
 
 ## Current Test Status
 
@@ -159,17 +160,17 @@ The report includes results for Chrome, Firefox, and Microsoft Edge. Known pendi
 
 | Scenario | Expected | Actual | Test status |
 |---|---|---|---|
-| Login page verification | Page title `Login - User Management` and form title `Sign In` | Page title `User Management` and form title `Sing in` | Skipped |
+| Login page verification | Current page title, base URL, and form title `Sign in` | Validated by the active login test | Active |
 | Add user with age `0` | Clear `Age cannot be negative.` validation | The toast content is garbled or combines multiple messages | Skipped |
 | Duplicate username | Clear duplicate-user message | The toast content is garbled or combines multiple messages | Skipped |
 | Shop route | Lowercase `/shop` | Application uses `/Shop` | Assertion follows current behavior |
-| Checkout confirmation in Firefox | Confirmation data is always populated | Confirmation data may be empty during Firefox execution | Pending / unstable |
+| Checkout confirmation | Confirmation data is always populated | Checkout flow may produce empty confirmation data | Skipped for all browsers |
 
 ## Implementation Notes
 
 - `BasePage.toastElement()` waits for a toast, validates its text, optionally captures a screenshot, and waits for the toast to disappear.
 - `BaseScreenshot` writes screenshots to `tests/<suite>/screenshots/<browser>/<folder>/<fileName>` and creates missing directories automatically.
 - `BelajarBareng` shares one Selenium driver across the Login, Add Users, and Checkout page objects.
-- Each browser runner passes its browser name and WebDriver options to `BelajarBarengTest` in `tests/belajar-bareng/index.test.js`.
+- Each browser runner in `tests/belajar-bareng/browsers/` passes its browser name and WebDriver options to `BelajarBarengTest` in `tests/belajar-bareng/index.test.js`.
 - The main runner creates the configured browser driver and closes it after the suite finishes.
 - Browser-specific screenshots are stored under `tests/belajar-bareng/screenshots/chrome/`, `firefox/`, or `microsoftedge/`. The screenshot location is independent of whether the browser runs in headed or headless mode.

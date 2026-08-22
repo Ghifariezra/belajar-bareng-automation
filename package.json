@@ -5,11 +5,11 @@
     "type": "module",
     "scripts": {
         "test:dummy": "mocha tests/google.test.js --timeout 10000",
-        "test:chrome": "mocha tests/belajar-bareng/run-chrome.test.js --timeout 20000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=chrome-report,html=true,json=false",
-        "test:firefox": "mocha tests/belajar-bareng/run-firefox.test.js --timeout 20000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=firefox-report,html=true,json=false",
-        "test:edge": "mocha tests/belajar-bareng/run-edge.test.js --timeout 20000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=edge-report,html=true,json=false",
+        "test:chrome": "mocha tests/belajar-bareng/browsers/run-chrome.test.js --timeout 20000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=chrome-report,html=true,json=false",
+        "test:firefox": "mocha tests/belajar-bareng/browsers/run-firefox.test.js --timeout 20000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=firefox-report,html=true,json=false",
+        "test:edge": "mocha tests/belajar-bareng/browsers/run-edge.test.js --timeout 20000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=edge-report,html=true,json=false",
         "pretest:parallel": "npx rimraf reports",
-        "test:parallel": "cross-env HEADLESS=true mocha tests/belajar-bareng/run-*.test.js --parallel --timeout 20000 --reporter mochawesome --require mochawesome/register --reporter-options reportDir=reports,reportFilename=compatibility-report,html=true,json=false"
+        "test:parallel": "cross-env HEADLESS=true mocha tests/belajar-bareng/browsers/run-*.test.js --parallel --timeout 20000 --reporter mochawesome --require mochawesome/register --reporter-options reportDir=reports,reportFilename=compatibility-report,html=true,json=false"
     },
     "dependencies": {
         "selenium-webdriver": "^4.46.0"

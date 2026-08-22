@@ -1,21 +1,25 @@
-import { before, describe, it } from "mocha";
+import { describe, it } from "mocha";
 
 export class CheckoutTest {
+    #testContext;
+
     constructor(testContext) {
-        this.testContext = testContext;
+        this.#testContext = testContext;
+    }
+
+    get checkoutPage() {
+        return this.#testContext.belajarBareng.checkout;
     }
 
     run() {
         describe.skip("Unstable for Firefox: Checkout Page Functionality", () => {
-            before(async () => {
-                this.userCheckout = this.testContext.belajarBareng.checkout;
+            it("User should be able to complete checkout", async () => {
+                await this.#testCheckoutProcess();
             });
-
-            it("User should be able to complete checkout", async () => await this.#checkout());
         });
     }
 
-    async #checkout() {
-        await this.userCheckout.checkout();
+    async #testCheckoutProcess() {
+        await this.checkoutPage.checkout();
     }
 }
