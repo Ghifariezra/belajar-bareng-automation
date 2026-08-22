@@ -1,158 +1,111 @@
 import assert from "assert";
-import { before, after, beforeEach, afterEach, describe, it } from "mocha";
+import { describe, before, after, beforeEach, afterEach, it } from "mocha";
+import { handleAfterEach } from "../helpers/test.helper.js";
 
-export class LoginTest {
-    #data;
-    folderPath = "login";
-    expectedFormTitle = "Sign in";
-    expectedToastMessage = "Invalid username or password!";
-    requiredValidationMessage = "Please fill out this field.";
-    expectedUrlAfterLogin = "/users";
-    screenshotType = "form";
+const CONSTANTS = {
+    FOLDER_PATH: "login",
+    EXPECTED_FORM_TITLE: "Sign in",
+    EXPECTED_TOAST_MESSAGE: "Invalid username or password!",
+    REQUIRED_VALIDATION_MESSAGE: "Please fill out this field.",
+    EXPECTED_URL_AFTER_LOGIN: "/users"
+};
 
-    constructor(testContext) {
-        this.testContext = testContext;
-    }
+const TEST_DATA = {
+    username: "admin",
+    password: "admin"
+};
 
-    get loginPage() {
-        return this.testContext.belajarBareng.login;
-    }
+export function runLoginTests(testContext) {
+    let loginPage;
 
-    run() {
-        // to prevent conflicts related to this context
-        const handleAfterEach = async (mochaTest) => {
-            if (!mochaTest) return;
+    const screenshotConfig = {
+        folderPath: CONSTANTS.FOLDER_PATH,
+        screenshotType: "form",
+        expectedToastMessage: CONSTANTS.EXPECTED_TOAST_MESSAGE
+    };
 
-            const { state, err, title } = mochaTest;
-            const cleanTitle = title.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
-
-            if (state === "failed" && err) {
-                if (err instanceof assert.AssertionError) {
-                    const cleanExpected = String(err.expected ?? "empty").replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
-                    const cleanActual = String(err.actual ?? "empty").replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
-
-                    await this.loginPage.takeScreenshotOfFormBox(
-                        `${this.folderPath}/bugs/${cleanExpected}_vs_${cleanActual}`,
-                        `${cleanTitle}.png`
-                    );
-                } else {
-                    await this.loginPage.takeScreenshotOfFormBox(
-                        `${this.folderPath}/errors/other`,
-                        `${cleanTitle}.png`
-                    );
-                }
-            } else if (state === "passed") {
-                if (this.screenshotType === "form") {
-                    await this.loginPage.takeScreenshotOfFormBox(
-                        `${this.folderPath}/success`,
-                        `${cleanTitle}.png`
-                    );
-                } else if (this.screenshotType === "toast") {
-                    await this.loginPage.getToastMessage(
-                        this.expectedToastMessage,
-                        `success/${cleanTitle}.png`
-                    );
-                } else if (this.screenshotType === "full") {
-                    await this.loginPage.takeScreenshot(
-                        await this.testContext.driver.takeScreenshot(),
-                        `${this.folderPath}/success`,
-                        `${cleanTitle}.png`
-                    );
-                }
-            }
-        };
-
-        describe("Login Page Functionality", () => {
-            before(async () => {
-                this.#data = {
-                    username: "admin",
-                    password: "admin"
-                };
-            });
-
-            after(async () => {
-                const currentUrl = await this.loginPage.validateUsersPage(this.expectedUrlAfterLogin);
-
-                assert.strictEqual(
-                    currentUrl,
-                    new URL(this.expectedUrlAfterLogin, this.testContext.baseUrl).href,
-                    "Current URL does not match expected value after login"
-                );
-
-                await this.loginPage.takeScreenshot(
-                    await this.testContext.driver.takeScreenshot(),
-                    this.folderPath,
-                    "login_success.png"
-                );
-            });
-
-            beforeEach(async () => {
-                await this.loginPage.clearFormInputs();
-                this.screenshotType = "form";
-            });
-
-            afterEach(async function () {
-                await handleAfterEach(this.currentTest);
-            });
-
-            it("Should validate the login form", async () => await this.#validatePage());
-            it("Should fail to login with empty credentials", async () => await this.#emptyLogin());
-            it("Should fail to login with missing credentials", async () => await this.#missingLogin());
-            it("Should fail to login with invalid credentials", async () => await this.#invalidLogin());
-            it("Should login successfully", async () => await this.#validLogin());
+    describe("Login Page Functionality", function () {
+        before(function () {
+            loginPage = testContext.belajarBareng.login;
         });
-    }
 
-    async #validatePage() {
-        const { pageTitle, currentUrl, formTitle } = await this.loginPage.getFormData();
+        after(async function () {
+            const currentUrl = await loginPage.validateUsersPage(CONSTANTS.EXPECTED_URL_AFTER_LOGIN);
 
-        assert.strictEqual(pageTitle, this.testContext.title, "Page title does not match expected value");
-        assert.strictEqual(currentUrl, this.testContext.baseUrl.href, "Current URL does not match expected value");
-        assert.strictEqual(formTitle, this.expectedFormTitle, "Form title does not match expected value");
-    }
+            assert.strictEqual(
+                currentUrl,
+                new URL(CONSTANTS.EXPECTED_URL_AFTER_LOGIN, testContext.baseUrl).href,
+                "Current URL does not match expected value after login"
+            );
 
-    async #emptyLogin() {
-        await this.loginPage.login();
+            await loginPage.takeScreenshot(
+                await testContext.driver.takeScreenshot(),
+                CONSTANTS.FOLDER_PATH,
+                "login_success.png"
+            );
+        });
 
-        const usernameValidationMessage = await this.loginPage.getUsernameValidationMessage();
-        const passwordValidationMessage = await this.loginPage.getPasswordValidationMessage();
+        beforeEach(async function () {
+            await loginPage.clearFormInputs();
+            screenshotConfig.screenshotType = "form";
+            screenshotConfig.expectedToastMessage = CONSTANTS.EXPECTED_TOAST_MESSAGE;
+        });
 
-        assert.ok(usernameValidationMessage, "Username validation message should not be empty");
-        assert.ok(passwordValidationMessage, "Password validation message should not be empty");
+        afterEach(async function () {
+            await handleAfterEach(this.currentTest, loginPage, testContext, screenshotConfig);
+        });
 
-        assert.strictEqual(usernameValidationMessage, this.requiredValidationMessage);
-        assert.strictEqual(passwordValidationMessage, this.requiredValidationMessage);
-    }
+        it("Should validate the login form", async function () {
+            const { pageTitle, currentUrl, formTitle } = await loginPage.getFormData();
 
-    async #missingLogin() {
-        await this.loginPage.login("Heyowwww");
+            assert.strictEqual(pageTitle, testContext.title, "Page title does not match expected value");
+            assert.strictEqual(currentUrl, testContext.baseUrl.href, "Current URL does not match expected value");
+            assert.strictEqual(formTitle, CONSTANTS.EXPECTED_FORM_TITLE, "Form title does not match expected value");
+        });
 
-        const passwordValidationMessage = await this.loginPage.getPasswordValidationMessage();
+        it("Should fail to login with empty credentials", async function () {
+            await loginPage.login();
 
-        assert.ok(passwordValidationMessage, "Password validation message should not be empty");
-        assert.strictEqual(passwordValidationMessage, this.requiredValidationMessage);
-    }
+            const usernameValidationMessage = await loginPage.getUsernameValidationMessage();
+            const passwordValidationMessage = await loginPage.getPasswordValidationMessage();
 
-    async #invalidLogin() {
-        this.screenshotType = "toast";
+            assert.ok(usernameValidationMessage, "Username validation message should not be empty");
+            assert.ok(passwordValidationMessage, "Password validation message should not be empty");
 
-        await this.loginPage.login("invalidUser", "invalidPass");
-    }
+            assert.strictEqual(usernameValidationMessage, CONSTANTS.REQUIRED_VALIDATION_MESSAGE);
+            assert.strictEqual(passwordValidationMessage, CONSTANTS.REQUIRED_VALIDATION_MESSAGE);
+        });
 
-    async #validLogin() {
-        const hintData = await this.loginPage.getHintData();
+        it("Should fail to login with missing credentials", async function () {
+            await loginPage.login("Heyowwww");
 
-        assert.ok(hintData.username, "Username hint should not be empty");
-        assert.ok(hintData.password, "Password hint should not be empty");
+            const passwordValidationMessage = await loginPage.getPasswordValidationMessage();
 
-        const cleanUsername = this.loginPage.cleanCredential(hintData.username);
-        const cleanPassword = this.loginPage.cleanCredential(hintData.password);
+            assert.ok(passwordValidationMessage, "Password validation message should not be empty");
+            assert.strictEqual(passwordValidationMessage, CONSTANTS.REQUIRED_VALIDATION_MESSAGE);
+        });
 
-        assert.strictEqual(cleanUsername, this.#data.username);
-        assert.strictEqual(cleanPassword, this.#data.password);
+        it("Should fail to login with invalid credentials", async function () {
+            screenshotConfig.screenshotType = "toast";
 
-        await this.loginPage.login(this.#data.username, this.#data.password);
+            await loginPage.login("invalidUser", "invalidPass");
+        });
 
-        this.screenshotType = "full";
-    }
+        it("Should login successfully", async function () {
+            const hintData = await loginPage.getHintData();
+
+            assert.ok(hintData.username, "Username hint should not be empty");
+            assert.ok(hintData.password, "Password hint should not be empty");
+
+            const cleanUsername = loginPage.cleanCredential(hintData.username);
+            const cleanPassword = loginPage.cleanCredential(hintData.password);
+
+            assert.strictEqual(cleanUsername, TEST_DATA.username);
+            assert.strictEqual(cleanPassword, TEST_DATA.password);
+
+            await loginPage.login(TEST_DATA.username, TEST_DATA.password);
+
+            screenshotConfig.screenshotType = "full";
+        });
+    });
 }

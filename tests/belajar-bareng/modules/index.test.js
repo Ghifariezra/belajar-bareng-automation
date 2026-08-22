@@ -1,5 +1,3 @@
-import { LoginTest } from "./login.test.js";
-import { DashboardTest } from "./dashboard.test.js";
-import { CheckoutTest } from "./checkout.test.js";
-
-export { LoginTest, DashboardTest, CheckoutTest };
+export { runLoginTests } from "./login.test.js";
+export { runDashboardTests } from "./dashboard.test.js";
+export { runCheckoutTests } from "./checkout.test.js";

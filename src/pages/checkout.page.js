@@ -2,6 +2,9 @@ import assert from "assert";
 import { By, Key, until } from "selenium-webdriver";
 import { BasePage } from "../core/base.driver.js";
 
+/*
+    SOON I WILL REFACTOR THIS CLASS, BECAUSE I THINK THIS CLASS IS TOO LONG AND TOO COMPLICATED, I WILL SPLIT THIS CLASS INTO MULTIPLE CLASSES, SO IT WILL BE EASIER TO MAINTAIN AND READABLE, AND I WILL ADD MORE COMMENTS TO EXPLAIN THE LOGIC OF THE CODE
+*/
 export class CheckoutPage extends BasePage {
     #items = [];
     #pageTitleLocator = `//h1[@class='page-title']`;
@@ -43,7 +46,6 @@ export class CheckoutPage extends BasePage {
     // Confirmation Locators
     #confirmationModalLocator = `//div[@class='modal-overlay']`;
     #confirmationModalContentLocator = `//div[@class='modal-content confirmation-modal']`;
-    #confirmationModalTitleLocator = `//h2[@data-testid='success-title']`;
 
     // Confirmation Invoice Locators
     #invoiceRowLocator = `.//div[@class='invoice-row']`;

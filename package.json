@@ -12,6 +12,8 @@
         "test:parallel": "cross-env HEADLESS=true mocha tests/belajar-bareng/browsers/run-*.test.js --parallel --timeout 20000 --reporter mochawesome --require mochawesome/register --reporter-options reportDir=reports,reportFilename=compatibility-report,html=true,json=false"
     },
     "dependencies": {
+        "canvas": "^3.2.3",
+        "pixelmatch": "^7.2.0",
         "selenium-webdriver": "^4.46.0"
     },
     "devDependencies": {
